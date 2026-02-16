@@ -45,12 +45,11 @@ CREATE TABLE BNGRC_dispatch (
 CREATE TABLE BNGRC_achat(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_don INT NOT NULL,
-    nom_don VARCHAR(100),
+    nom_don VARCHAR(255),
     quantite INT NOT NULL,
     prix_unitaire DOUBLE,
     pourcentage DOUBLE,
-    FOREIGN KEY (id_don) REFERENCES BNGRC_dons(id),
-    FOREIGN KEY (nom_don) REFERENCES BNGRC_dons(nom)
+    FOREIGN KEY (id_don) REFERENCES BNGRC_dons(id)
 );
 -- ============================================
 -- DONNÉES DE TEST POUR BNGRC (VERSION CORRIGÉE)
