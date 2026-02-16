@@ -42,6 +42,16 @@ CREATE TABLE BNGRC_dispatch (
     FOREIGN KEY (id_don) REFERENCES BNGRC_dons(id),
     FOREIGN KEY (id_besoin) REFERENCES BNGRC_besoins(id)
 );
+CREATE TABLE BNGRC_achat(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_don INT NOT NULL,
+    nom_don VARCHAR(100),
+    quantite INT NOT NULL,
+    prix_unitaire DOUBLE,
+    pourcentage DOUBLE,
+    FOREIGN KEY (id_don) REFERENCES BNGRC_dons(id),
+    FOREIGN KEY (nom_don) REFERENCES BNGRC_dons(nom)
+);
 -- ============================================
 -- DONNÉES DE TEST POUR BNGRC (VERSION CORRIGÉE)
 -- ============================================
@@ -205,3 +215,10 @@ INSERT INTO BNGRC_dispatch (id_don, id_besoin, quantite_attribuee, status, date_
 
 INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
 ('Mais', 200, '2026-02-10');
+
+INSERT INTO BNGRC_achat (id_don, nom_don, quantite, prix_unitaire, pourcentage) VALUES
+(1, 'Don Argent Antananarivo', 5, 20000, 10),
+(2, 'Don Argent Toamasina', 3, 50000, 8),
+(3, 'Don Argent Mahajanga', 10, 15000, 5),
+(4, 'Don Argent Fianarantsoa', 2, 120000, 12),
+(5, 'Don Argent Toliara', 8, 30000, 7);
