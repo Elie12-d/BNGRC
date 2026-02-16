@@ -1,0 +1,2 @@
+# BNGRC
+Pour les sinistre
