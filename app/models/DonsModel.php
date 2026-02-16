@@ -75,4 +75,16 @@ class DonsModel
 
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function updateQuantite($id, $nouvelleQuantite)
+    {
+        $sql = "UPDATE BNGRC_dons SET quantite = ? WHERE id = ?";
+        
+        $params = [
+            (int)$nouvelleQuantite,
+            (int)$id
+        ];
+        
+        $st = $this->pdo->prepare($sql);
+        return $st->execute($params);
+    }
 }

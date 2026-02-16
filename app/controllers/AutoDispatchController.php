@@ -30,6 +30,7 @@ class AutoDispatchController
 
         foreach ($dons as &$don) {
             $quantiteDonRestante = $don['quantite'];
+            $totalDistribue = 0;
 
             foreach ($besoins as &$besoin) {
                 if ($quantiteDonRestante <= 0) break;
@@ -54,8 +55,12 @@ class AutoDispatchController
                     $aAttribuer,
                     $this->determinerStatus($resteBesoin, $aAttribuer)
                 );
-
                 $quantiteDonRestante -= $aAttribuer;
+                $totalDistribue += $aAttribuer;
+            }
+            if ($totalDistribue > 0) {
+                $nouvelleQuantite = $don['quantite'] - $totalDistribue;
+                $donsModel->updateQuantite($don['id'], $nouvelleQuantite);
             }
         }
         $this->app->redirect('/Dashboard');
@@ -70,12 +75,12 @@ class AutoDispatchController
         }
         return false;
     }
-    private function determinerStatus($resteAvant, $attribue) {
-    if ($attribue >= $resteAvant) {
-        return 'complete';
-    } else {
-        return 'partiel';
+    private function determinerStatus($resteAvant, $attribue)
+    {
+        if ($attribue >= $resteAvant) {
+            return 'complete';
+        } else {
+            return 'partiel';
+        }
     }
-}
-
 }
