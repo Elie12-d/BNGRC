@@ -23,7 +23,7 @@
   <div class="sidebar-section">Navigation</div>
   <a href="/dashboard" class="nav-item active"><i class="fa-solid fa-gauge-high"></i> Tableau de Bord</a>
   <a href="/villes"    class="nav-item"><i class="fa-solid fa-city"></i> Villes & Régions</a>
-  <a href="/besoins"   class="nav-item"><i class="fa-solid fa-list-check"></i> Besoins</a>
+ 
   <a href="/dons"      class="nav-item"><i class="fa-solid fa-hand-holding-heart"></i> Dons</a>
   <a href="/dispatch"  class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Simulation Dispatch</a>
 
@@ -103,14 +103,52 @@
         <tbody>
           <?php foreach ($villes as $ville): ?>
             <?php
-            // Filtrer les besoins de cette ville
-            $besoinsVille = array_filter($besoins, function($b) use ($ville) {
-                return $b['id_ville'] == $ville['id'];
-            });
+      // Filtrer et regrouper les besoins de cette ville par produit (éviter doublons)
+      $raw = array_filter($besoins, function($b) use ($ville) {
+        return $b['id_ville'] == $ville['id'];
+      });
 
-            if (count($besoinsVille) > 0):
-                $premierBesoin = true;
-                foreach ($besoinsVille as $besoin):
+      // Regroupement par nom de produit (clé normalisée)
+      $grouped = [];
+      foreach ($raw as $b) {
+        $key = strtolower(trim($b['nom']));
+        if ($key === '') continue;
+        $qty = isset($b['quantite']) ? (int)$b['quantite'] : 0;
+        $attrib = isset($b['attribue']) ? (int)$b['attribue'] : 0;
+        $pu = isset($b['prix_unitaire']) ? (float)$b['prix_unitaire'] : 0.0;
+
+        if (!isset($grouped[$key])) {
+          $grouped[$key] = [
+            'nom' => $b['nom'],
+            'quantite' => $qty,
+            'attribue' => $attrib,
+            'prix_unitaire' => $pu,
+            'total_value' => $pu * $qty,
+          ];
+        } else {
+          // sommer quantités et attributions, mettre à jour valeur totale pour recalculer PU
+          $grouped[$key]['quantite'] += $qty;
+          $grouped[$key]['attribue'] += $attrib;
+          $grouped[$key]['total_value'] += ($pu * $qty);
+          // prix unitaire pondéré
+          $gqty = $grouped[$key]['quantite'];
+          $grouped[$key]['prix_unitaire'] = $gqty > 0 ? ($grouped[$key]['total_value'] / $gqty) : $pu;
+        }
+      }
+
+      $besoinsVille = array_values($grouped);
+      // Calculer le "reste" pour chaque produit regroupé (quantité à couvrir)
+      foreach ($besoinsVille as &$g) {
+        $g['attribue'] = isset($g['attribue']) ? (int)$g['attribue'] : 0;
+        $g['quantite'] = isset($g['quantite']) ? (int)$g['quantite'] : 0;
+        $g['reste'] = max(0, $g['quantite'] - $g['attribue']);
+        $g['prix_unitaire'] = isset($g['prix_unitaire']) ? (float)$g['prix_unitaire'] : 0.0;
+      }
+      unset($g);
+
+      if (count($besoinsVille) > 0):
+        $premierBesoin = true;
+        foreach ($besoinsVille as $besoin):
 
                   if ($besoin['attribue'] == 0) {
                       $statutKey   = 'nontraite';

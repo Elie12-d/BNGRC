@@ -146,3 +146,43 @@ body {
 ::-webkit-scrollbar { width:6px; height:6px; }
 ::-webkit-scrollbar-track { background:var(--bg); }
 ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+
+/* ═══ FORM CARD ══════════════════════════════════════════════ */
+.form-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 40px;
+  max-width: 720px;
+  margin: 0 auto;        /* ← centrage horizontal */
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;             /* ← plus d'espace entre les champs (était 18px) */
+  margin-bottom: 32px;   /* ← plus d'espace avant les boutons (était 24px) */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;             /* ← plus d'espace entre label et input (était 8px) */
+}
+
+.form-input, .form-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 13px 16px;    /* ← champs plus hauts (était 10px 14px) */
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  width: 100%;
+}
+/* dans la section form */
+.form-group-full {
+  grid-column: 1 / -1;
+}
