@@ -38,7 +38,7 @@ $ds = DIRECTORY_SEPARATOR;
 $app->path(__DIR__ . $ds . '..' . $ds . '..');
 
 // Base URL for your app (important)
-$app->set('flight.base_url', '');
+// $app->set('flight.base_url', '/ETU003895/BNGRC');
 
 // Define BASE_URL constant safely
 if (!defined('BASE_URL')) {
@@ -67,5 +67,6 @@ return [
         'user'     => 'root',
         'password' => '',
     ],
+
     // Add more configuration sections here if needed
 ];
