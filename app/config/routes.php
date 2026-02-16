@@ -11,7 +11,10 @@ use flight\net\Router;
 
 // This wraps all routes in the group with the SecurityHeadersMiddleware
 $router->group('', function(Router $router) use ($app) {
-	$router->get('/Dashboard', [ DashboardController::class, 'dashboard' ]);
+	// Make dashboard available at '/', '/home' and '/dashboard' (case-insensitive matching configured)
+	$router->get('/', [ DashboardController::class, 'dashboard' ]);
+	$router->get('/home', [ DashboardController::class, 'dashboard' ]);
+	$router->get('/dashboard', [ DashboardController::class, 'dashboard' ]);
 
 	// $router->get('/', [ PagesController::class, 'init' ]);
 	// $router->post('/login', [ PagesController::class, 'login' ]);
