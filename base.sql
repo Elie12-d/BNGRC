@@ -1,2 +1,31 @@
 CREATE DATABASE BNGRC;
 use BNGRC;
+CREATE TABLE BNGRC_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+    type VARCHAR(255) DEFAULT 'user'
+);
+CREATE TABLE BNGRC_regions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL
+);
+CREATE TABLE BNGRC_villes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    id_region INT,
+    FOREIGN KEY (id_region) REFERENCES regions(id)
+);
+CREATE TABLE BNGRC_besoins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    quantite INT NOT NULL,
+    prix_unitaire DOUBLE,
+    id_ville INT,
+    FOREIGN KEY (id_ville) REFERENCES villes(id)
+);
+CREATE TABLE BNGRC_dons (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    quantite INT NOT NULL
+);
