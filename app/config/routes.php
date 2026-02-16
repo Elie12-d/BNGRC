@@ -4,6 +4,7 @@ use app\controllers\AutoDispatchController;
 use app\controllers\DashboardController;
 use app\controllers\BngrcController;
 use app\controllers\RecapitulatifController;
+use app\controllers\AchatController;
 use flight\Engine;
 use flight\net\Router;
 
@@ -21,6 +22,7 @@ $router->get('/dashboard', [ DashboardController::class, 'dashboard' ]);
 
 // Other routes
 $router->get('/disp', [ AutoDispatchController::class, 'autoDispatch' ]);
+$router->get('/achat/historique', [ AchatController::class, 'historique' ]);
 
 
 	// Backwards-compat / convenience: redirect /villes to the besoins form (or implement list later)
