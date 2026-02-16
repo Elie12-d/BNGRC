@@ -37,7 +37,7 @@ class AutoDispatchController
                 $dejaAttribue = $dispatchModel->getTotalByBesoin($besoin['id']);
                 $resteBesoin = $besoin['quantite'] - $dejaAttribue;
 
-                if ($resteBesoin <= 0) continue;
+                if ($resteBesoin <= 0) continue; // besoin déjà satisfait
 
                 // verification de la correspondance
                 if (!$this->correspondType($don['nom'], $besoin['nom'])) {
@@ -49,8 +49,8 @@ class AutoDispatchController
 
                 // creer le dispatch
                 $dispatchModel->create(
-                    $besoin['id'],
                     $don['id'],
+                    $besoin['id'],
                     $aAttribuer,
                     $this->determinerStatus($resteBesoin, $aAttribuer)
                 );

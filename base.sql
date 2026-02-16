@@ -22,6 +22,7 @@ CREATE TABLE BNGRC_besoins (
     quantite INT NOT NULL,
     prix_unitaire DOUBLE,
     id_ville INT,
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_ville) REFERENCES BNGRC_villes(id)
 );
 CREATE TABLE BNGRC_dons (
@@ -41,7 +42,7 @@ CREATE TABLE BNGRC_dispatch (
     FOREIGN KEY (id_besoin) REFERENCES BNGRC_besoins(id)
 );
 -- ============================================
--- DONNÉES DE TEST POUR BNGRC
+-- DONNÉES DE TEST POUR BNGRC (VERSION CORRIGÉE)
 -- ============================================
 
 -- 1. Utilisateurs
@@ -98,61 +99,66 @@ INSERT INTO BNGRC_villes (nom, id_region) VALUES
 ('Nosy Be', 6);
 
 -- 4. Besoins (avec dates pour l'ordre chronologique)
-INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville) VALUES
--- Antananarivo (id=1) - Inondations quartiers bas
-('Riz', 800, 2500, 1),
-('Huile végétale litre', 150, 7800, 1),
-('Tôle bacico', 200, 42000, 1),
-('Ciment', 50, 25000, 1),
-('Clou', 40, 7500, 1),
-('Eau potable', 300, 5000, 1),
-('Savon', 100, 22000, 1),
+INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_creation) VALUES
+-- Antananarivo (id=1) - Inondations (10 Février)
+('Riz', 800, 2500, 1, '2026-02-10 08:00:00'),
+('Huile', 150, 7800, 1, '2026-02-10 08:00:00'),
+('Tôle', 200, 42000, 1, '2026-02-10 08:00:00'),
+('Ciment', 50, 25000, 1, '2026-02-10 08:00:00'),
+('Clou', 40, 7500, 1, '2026-02-10 08:00:00'),
+('Eau', 300, 5000, 1, '2026-02-10 08:00:00'),
+('Savon', 100, 22000, 1, '2026-02-10 08:00:00'),
 
--- Toamasina (id=5) - Cyclone
-('Riz', 600, 2800, 5),
-('Tôle bacico', 350, 45000, 5),
-('Bâche', 80, 38000, 5),
-('Clou', 60, 8000, 5),
-('Sucre', 200, 4000, 5),
-('Lait', 300, 6000, 5),
-('Moustiquaire', 150, 12000, 5),
+-- Toamasina (id=5) - Cyclone (11 Février)
+('Riz', 600, 2800, 5, '2026-02-11 09:00:00'),
+('Tôle', 350, 45000, 5, '2026-02-11 09:00:00'),
+('Bâche', 80, 38000, 5, '2026-02-11 09:00:00'),
+('Clou', 60, 8000, 5, '2026-02-11 09:00:00'),
+('Sucre', 200, 4000, 5, '2026-02-11 09:00:00'),
+('Lait', 300, 6000, 5, '2026-02-11 09:00:00'),
+('Moustiquaire', 150, 12000, 5, '2026-02-11 09:00:00'),
 
--- Mahajanga (id=9) - Sécheresse
-('Riz', 500, 2500, 9),
-('Farine', 300, 2800, 9),
-('Huile', 200, 7500, 9),
-('Haricot', 150, 3200, 9),
-('Mais', 400, 1500, 9),
-('Biscuit énergétique', 200, 45000, 9),
+-- Mahajanga (id=9) - Sécheresse (12 Février)
+('Riz', 500, 2500, 9, '2026-02-12 10:00:00'),
+('Farine', 300, 2800, 9, '2026-02-12 10:00:00'),
+('Huile', 200, 7500, 9, '2026-02-12 10:00:00'),
+('Haricot', 150, 3200, 9, '2026-02-12 10:00:00'),
+('Mais', 400, 1500, 9, '2026-02-12 10:00:00'),
+('Biscuit', 200, 45000, 9, '2026-02-12 10:00:00'),
 
--- Fianarantsoa (id=13) - Vague de froid
-('Couverture', 400, 14000, 13),
-('Pull', 300, 18000, 13),
-('Riz', 400, 2400, 13),
-('Sucre', 150, 4000, 13),
-('Huile', 120, 7600, 13),
+-- Fianarantsoa (id=13) - Froid (13 Février)
+('Couverture', 400, 14000, 13, '2026-02-13 11:00:00'),
+('Pull', 300, 18000, 13, '2026-02-13 11:00:00'),
+('Riz', 400, 2400, 13, '2026-02-13 11:00:00'),
+('Sucre', 150, 4000, 13, '2026-02-13 11:00:00'),
+('Huile', 120, 7600, 13, '2026-02-13 11:00:00'),
 
--- Antsirabe (id=16) - Grêle
-('Tôle bacico', 150, 43000, 16),
-('Bâche', 100, 35000, 16),
-('Riz', 250, 2400, 16),
-('Clou', 30, 7500, 16),
-('Vêtements chauds', 200, 20000, 16),
+-- Antsirabe (id=16) - Grêle (14 Février)
+('Tôle', 150, 43000, 16, '2026-02-14 12:00:00'),
+('Bâche', 100, 35000, 16, '2026-02-14 12:00:00'),
+('Riz', 250, 2400, 16, '2026-02-14 12:00:00'),
+('Clou', 30, 7500, 16, '2026-02-14 12:00:00'),
+('Vêtements', 200, 20000, 16, '2026-02-14 12:00:00'),
 
--- Antsiranana (id=19) - Tempête
-('Tôle bacico', 120, 46000, 19),
-('Bâche', 60, 38000, 19),
-('Riz', 180, 2600, 19),
-('Eau potable', 250, 5000, 19),
-('Médicaments', 50, 75000, 19);
+-- Antsiranana (id=19) - Tempête (15 Février)
+('Tôle', 120, 46000, 19, '2026-02-15 13:00:00'),
+('Bâche', 60, 38000, 19, '2026-02-15 13:00:00'),
+('Riz', 180, 2600, 19, '2026-02-15 13:00:00'),
+('Eau', 250, 5000, 19, '2026-02-15 13:00:00'),
+('Médicaments', 50, 75000, 19, '2026-02-15 13:00:00');
 
 -- 5. Dons reçus (avec dates pour l'ordre chronologique)
 INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
+-- Dons du 9 Février 2026 (arrivés avant les besoins)
+('Riz', 1000, '2026-02-09'),
+('Huile', 200, '2026-02-09'),
+('Tôle', 150, '2026-02-09'),
+
 -- Dons du 10 Février 2026
 ('Riz', 1500, '2026-02-10'),
 ('Huile', 300, '2026-02-10'),
-('Tôle bacico', 200, '2026-02-10'),
-('Don en argent', 2000000, '2026-02-10'),
+('Tôle', 200, '2026-02-10'),
+('Argent', 2000000, '2026-02-10'),
 
 -- Dons du 11 Février 2026
 ('Riz', 800, '2026-02-11'),
@@ -161,9 +167,9 @@ INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
 ('Ciment', 100, '2026-02-11'),
 
 -- Dons du 12 Février 2026
-('Tôle bacico', 300, '2026-02-12'),
+('Tôle', 300, '2026-02-12'),
 ('Sucre', 200, '2026-02-12'),
-('Don en argent', 1500000, '2026-02-12'),
+('Argent', 1500000, '2026-02-12'),
 ('Clou', 80, '2026-02-12'),
 
 -- Dons du 13 Février 2026
@@ -173,17 +179,28 @@ INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
 ('Savon', 150, '2026-02-13'),
 
 -- Dons du 14 Février 2026
-('Eau potable', 500, '2026-02-14'),
+('Eau', 500, '2026-02-14'),
 ('Médicaments', 30, '2026-02-14'),
-('Don en argent', 800000, '2026-02-14'),
-('Vêtements', 250, '2026-02-14');
+('Argent', 800000, '2026-02-14'),
+('Vêtements', 250, '2026-02-14'),
 
+-- Dons du 15 Février 2026
+('Riz', 700, '2026-02-15'),
+('Lait', 200, '2026-02-15'),
+('Moustiquaire', 100, '2026-02-15');
+
+-- 6. Dispatch (distributions déjà effectuées)
 INSERT INTO BNGRC_dispatch (id_don, id_besoin, quantite_attribuee, status, date_dispatch) VALUES
--- Distribution normale terminée
-(1, 1, 500, 'complete', '2026-02-10 10:30:00'),
+-- Distribution du 10 Février (don du 9/02)
+(1, 1, 500, 'complete', '2026-02-10 10:30:00'),  -- Riz → Tana
+(1, 8, 500, 'complete', '2026-02-10 10:30:01'),  -- Riz → Toamasina (reste)
 
--- Distribution en cours (pas encore finalisée)
-(1, 5, 150, 'en_cours', '2026-02-10 10:30:01'),
+-- Distribution du 11 Février
+(4, 2, 150, 'partiel', '2026-02-11 09:15:00'),   -- Huile → Tana (partiel)
+(5, 3, 200, 'partiel', '2026-02-11 09:15:01'),   -- Tôle → Tana
 
--- Distribution partielle (manque de stock)
-(2, 3, 200, 'partiel', '2026-02-11 09:15:00');
+-- Distribution du 12 Février
+(10, 9, 80, 'en_cours', '2026-02-12 14:20:00');   -- Bâche → Toamasina
+
+-- INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
+-- ('Clou', 20, '2026-02-10');

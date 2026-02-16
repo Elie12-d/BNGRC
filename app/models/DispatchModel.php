@@ -40,7 +40,7 @@ class DispatchModel
         $st = $this->pdo->prepare("
             SELECT SUM(quantite_attribuee) as total
             FROM BNGRC_dispatch
-            WHERE id_besoin = ? AND status IN ('complete', 'partiel', 'en_cours')
+            WHERE id_besoin = ? AND status IN ('complete', 'partiel')
         ");
 
         $st->execute([(int)$id_besoin]);

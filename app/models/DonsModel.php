@@ -70,7 +70,7 @@ class DonsModel
     public function getAllOrderByDate()
     {
         $st = $this->pdo->query("
-            SELECT * FROM BNGRC_dons ORDER BY date_creation ASC
+            SELECT * FROM BNGRC_dons ORDER BY date_don ASC
         ");
 
         return $st->fetchAll(PDO::FETCH_ASSOC);
