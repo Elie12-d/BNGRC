@@ -30,7 +30,16 @@ CREATE TABLE BNGRC_dons (
     quantite INT NOT NULL,
     date_don DATE
 );
-
+CREATE TABLE BNGRC_dispatch (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_don INT NOT NULL,
+    id_besoin INT NOT NULL,
+    quantite_attribuee INT NOT NULL,
+    date_dispatch DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(255) DEFAULT 'en cours',
+    FOREIGN KEY (id_don) REFERENCES BNGRC_dons(id),
+    FOREIGN KEY (id_besoin) REFERENCES BNGRC_besoins(id)
+);
 -- ============================================
 -- DONNÉES DE TEST POUR BNGRC
 -- ============================================
@@ -168,3 +177,13 @@ INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
 ('Médicaments (kit)', 30, '2026-02-14'),
 ('Don en argent (Ar)', 800000, '2026-02-14'),
 ('Vêtements (lot)', 250, '2026-02-14');
+
+INSERT INTO BNGRC_dispatch (id_don, id_besoin, quantite_attribuee, status, date_dispatch) VALUES
+-- Distribution normale terminée
+(1, 1, 500, 'complete', '2026-02-10 10:30:00'),
+
+-- Distribution en cours (pas encore finalisée)
+(1, 5, 150, 'en_cours', '2026-02-10 10:30:01'),
+
+-- Distribution partielle (manque de stock)
+(2, 3, 200, 'partiel', '2026-02-11 09:15:00');
