@@ -47,4 +47,15 @@ class DispatchModel
         $result = $st->fetch(PDO::FETCH_ASSOC);
         return $result['total'] ?? 0;
     }
+    public function getTotalSatisfaits()
+    {
+        $st = $this->pdo->query("
+        SELECT SUM(d.quantite_attribuee * b.prix_unitaire) as total
+        FROM BNGRC_dispatch d
+        JOIN BNGRC_besoins b ON d.id_besoin = b.id
+        WHERE d.status IN ('complete', 'partiel')
+    ");
+        $result = $st->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
 }

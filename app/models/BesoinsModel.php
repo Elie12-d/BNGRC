@@ -86,4 +86,13 @@ class BesoinsModel
 
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getTotalBesoins()
+    {
+        $st = $this->pdo->query("
+        SELECT SUM(quantite * prix_unitaire) as total 
+        FROM BNGRC_besoins
+    ");
+        $result = $st->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
 }
