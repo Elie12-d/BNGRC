@@ -32,9 +32,7 @@ class VillesModel
     public function getAll()
     {
         $st = $this->pdo->query("
-            SELECT v.*, r.nom as region_nom
-            FROM BNGRC_villes v
-            LEFT JOIN BNGRC_regions r ON v.id_region = r.id
+            SELECT * FROM BNGRC_villes
         ");
 
         return $st->fetchAll(PDO::FETCH_ASSOC);
