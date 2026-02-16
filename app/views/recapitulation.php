@@ -25,7 +25,7 @@ use Tracy\Bar;
         </div>
         <h1 class="mb-0 fw-bold display-6 text-light">Récapitulation</h1>
       </div>
-      <button class="btn btn-primary btn-lg rounded-pill shadow-lg">
+      <button class="btn btn-primary btn-lg rounded-pill shadow-lg" id="refresh">
         <i class="fa-solid fa-rotate me-2"></i>
         Actualiser
       </button>
@@ -47,7 +47,7 @@ use Tracy\Bar;
         </div>
       </div>
       <div class="text-center text-md-end">
-        <div class="display-4 fw-bold text-primary"><?= number_format($total, 0, ',', ' ') ?></div>
+        <div class="display-4 fw-bold text-primary"><?= number_format($total_besoins, 0, ',', ' ') ?></div>
         <small class="text-info fw-semibold">Ariary</small>
       </div>
     </div>
@@ -64,7 +64,7 @@ use Tracy\Bar;
         </div>
       </div>
       <div class="text-center text-md-end">
-        <div class="display-4 fw-bold text-success"><?= number_format($total_satisfait, 0, ',', ' ') ?></div>
+        <div class="display-4 fw-bold text-success"><?= number_format($total_satisfaits, 0, ',', ' ') ?></div>
         <small class="text-success-emphasis fw-semibold">Ariary</small>
       </div>
     </div>
@@ -81,7 +81,7 @@ use Tracy\Bar;
         </div>
       </div>
       <div class="text-center text-md-end">
-        <div class="display-4 fw-bold text-danger"><?= number_format($total - $total_satisfait, 0, ',', ' ') ?></div>
+        <div class="display-4 fw-bold text-danger"><?= number_format($total_besoins - $total_satisfaits, 0, ',', ' ') ?></div>
         <small class="text-danger-emphasis fw-semibold">Ariary</small>
       </div>
     </div>
@@ -95,7 +95,7 @@ use Tracy\Bar;
       Taux de couverture des besoins
     </h4>
     <?php 
-      $pourcentage = $total > 0 ? round(($total_satisfait / $total) * 100, 1) : 0;
+      $pourcentage = $total_besoins > 0 ? round(($total_satisfaits / $total_besoins) * 100, 1) : 0;
     ?>
     <div class="progress mb-3 border border-secondary" style="height: 45px;">
       <div class="progress-bar bg-success bg-gradient progress-bar-striped progress-bar-animated fw-bold fs-5 shadow" 
@@ -112,7 +112,7 @@ use Tracy\Bar;
         <i class="fa-solid fa-arrow-left me-1"></i>0 Ar (départ)
       </small>
       <small class="fw-semibold text-info">
-        <?= number_format($total, 0, ',', ' ') ?> Ar (objectif)
+        <?= number_format($total_besoins, 0, ',', ' ') ?> Ar (objectif)
         <i class="fa-solid fa-arrow-right ms-1"></i>
       </small>
     </div>
@@ -121,5 +121,6 @@ use Tracy\Bar;
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?= BASE_URL ?>/assets/js/actualiser.js"></script>
 </body>
 </html>

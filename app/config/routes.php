@@ -84,5 +84,8 @@ $router->get('/achat/historique', [ AchatController::class, 'historique' ]);
 		\Flight::redirect('/dashboard');
 		});
 	}
-	$router->get('/recapitulatif', [ RecapitulatifController::class, 'showRecapitulatif' ]);
+	$router->group('/recapitulatif', function(Router $router) use ($app) {
+		$router->get('', [ RecapitulatifController::class, 'showRecapitulatif' ]);
+		$router->get('/refresh', [ RecapitulatifController::class, 'refresh' ]);
+	});
 });

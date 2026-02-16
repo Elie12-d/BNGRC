@@ -23,6 +23,17 @@ class RecapitulatifController
         $dispatchModel = new DispatchModel();
         $total = $besoinsModel->getTotalBesoins();
         $total_satisfait = $dispatchModel->getTotalSatisfaits();
+        $this->app->render('recapitulation', [
+            'total_besoins' => $total,
+            'total_satisfaits' => $total_satisfait,
+            'besoin_restant' => $total - $total_satisfait
+        ]);
+    }
+    public function refresh(){
+        $besoinsModel = new BesoinsModel();
+        $dispatchModel = new DispatchModel();
+        $total = $besoinsModel->getTotalBesoins();
+        $total_satisfait = $dispatchModel->getTotalSatisfaits();
         $sata = [
             'total_besoins' => $total,
             'total_satisfaits' => $total_satisfait,

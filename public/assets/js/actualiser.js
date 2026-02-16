@@ -1,9 +1,9 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const refreshButton = document.getElementById('refresh-button');
+    const refreshButton = document.getElementById('refresh');
     if (refreshButton) {
         refreshButton.addEventListener('click', () => {
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', '/recapitulatif');
+            xhr.open('GET', '/recapitulatif/refresh', true);
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     alert('Rafraîchissement effectué avec succès !');
