@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS BNGRC;
+USE BNGRC;
 CREATE TABLE BNGRC_users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
@@ -200,5 +202,5 @@ INSERT INTO BNGRC_dispatch (id_don, id_besoin, quantite_attribuee, status, date_
 -- Distribution du 12 Février
 (10, 9, 80, 'en_cours', '2026-02-12 14:20:00');   -- Bâche → Toamasina
 
--- INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
--- ('Clou', 20, '2026-02-10');
+INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
+('Mais', 200, '2026-02-10');

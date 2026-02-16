@@ -58,6 +58,7 @@ class AutoDispatchController
                 $quantiteDonRestante -= $aAttribuer;
             }
         }
+        $this->app->redirect('/Dashboard');
     }
     private function correspondType($nomDon, $nomBesoin)
     {
