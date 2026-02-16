@@ -100,83 +100,83 @@ INSERT INTO BNGRC_villes (nom, id_region) VALUES
 -- 4. Besoins (avec dates pour l'ordre chronologique)
 INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville) VALUES
 -- Antananarivo (id=1) - Inondations quartiers bas
-('Riz (masika) kg', 800, 2500, 1),
+('Riz', 800, 2500, 1),
 ('Huile végétale litre', 150, 7800, 1),
 ('Tôle bacico', 200, 42000, 1),
-('Ciment (sac 50kg)', 50, 25000, 1),
-('Clou (boîte 1kg)', 40, 7500, 1),
-('Eau potable (bidon 20L)', 300, 5000, 1),
-('Savon (carton)', 100, 22000, 1),
+('Ciment', 50, 25000, 1),
+('Clou', 40, 7500, 1),
+('Eau potable', 300, 5000, 1),
+('Savon', 100, 22000, 1),
 
 -- Toamasina (id=5) - Cyclone
-('Riz (vary gasy) kg', 600, 2800, 5),
+('Riz', 600, 2800, 5),
 ('Tôle bacico', 350, 45000, 5),
-('Bâche (épaisse)', 80, 38000, 5),
-('Clou (charpente) kg', 60, 8000, 5),
-('Sucre (kg)', 200, 4000, 5),
-('Lait (boîte)', 300, 6000, 5),
+('Bâche', 80, 38000, 5),
+('Clou', 60, 8000, 5),
+('Sucre', 200, 4000, 5),
+('Lait', 300, 6000, 5),
 ('Moustiquaire', 150, 12000, 5),
 
 -- Mahajanga (id=9) - Sécheresse
-('Riz (kg)', 500, 2500, 9),
-('Farine (kg)', 300, 2800, 9),
-('Huile (litre)', 200, 7500, 9),
-('Haricot (tsaramaso) kg', 150, 3200, 9),
-('Mais (kg)', 400, 1500, 9),
-('Biscuit énergétique (carton)', 200, 45000, 9),
+('Riz', 500, 2500, 9),
+('Farine', 300, 2800, 9),
+('Huile', 200, 7500, 9),
+('Haricot', 150, 3200, 9),
+('Mais', 400, 1500, 9),
+('Biscuit énergétique', 200, 45000, 9),
 
 -- Fianarantsoa (id=13) - Vague de froid
-('Couverture (lamba)', 400, 14000, 13),
-('Pull (sweat) lot', 300, 18000, 13),
-('Riz (kg)', 400, 2400, 13),
-('Sucre (kg)', 150, 4000, 13),
-('Huile (litre)', 120, 7600, 13),
+('Couverture', 400, 14000, 13),
+('Pull', 300, 18000, 13),
+('Riz', 400, 2400, 13),
+('Sucre', 150, 4000, 13),
+('Huile', 120, 7600, 13),
 
 -- Antsirabe (id=16) - Grêle
 ('Tôle bacico', 150, 43000, 16),
 ('Bâche', 100, 35000, 16),
-('Riz (kg)', 250, 2400, 16),
-('Clou (boîte)', 30, 7500, 16),
-('Vêtements chauds (lot)', 200, 20000, 16),
+('Riz', 250, 2400, 16),
+('Clou', 30, 7500, 16),
+('Vêtements chauds', 200, 20000, 16),
 
 -- Antsiranana (id=19) - Tempête
 ('Tôle bacico', 120, 46000, 19),
 ('Bâche', 60, 38000, 19),
-('Riz (kg)', 180, 2600, 19),
-('Eau (bidon)', 250, 5000, 19),
-('Médicaments (kit)', 50, 75000, 19);
+('Riz', 180, 2600, 19),
+('Eau potable', 250, 5000, 19),
+('Médicaments', 50, 75000, 19);
 
 -- 5. Dons reçus (avec dates pour l'ordre chronologique)
 INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
 -- Dons du 10 Février 2026
-('Riz (kg)', 1500, '2026-02-10'),
-('Huile (litre)', 300, '2026-02-10'),
+('Riz', 1500, '2026-02-10'),
+('Huile', 300, '2026-02-10'),
 ('Tôle bacico', 200, '2026-02-10'),
-('Don en argent (Ar)', 2000000, '2026-02-10'),
+('Don en argent', 2000000, '2026-02-10'),
 
 -- Dons du 11 Février 2026
-('Riz (kg)', 800, '2026-02-11'),
-('Haricot (kg)', 250, '2026-02-11'),
+('Riz', 800, '2026-02-11'),
+('Haricot', 250, '2026-02-11'),
 ('Bâche', 120, '2026-02-11'),
-('Ciment (sac)', 100, '2026-02-11'),
+('Ciment', 100, '2026-02-11'),
 
 -- Dons du 12 Février 2026
 ('Tôle bacico', 300, '2026-02-12'),
-('Sucre (kg)', 200, '2026-02-12'),
-('Don en argent (Ar)', 1500000, '2026-02-12'),
-('Clou (boîte)', 80, '2026-02-12'),
+('Sucre', 200, '2026-02-12'),
+('Don en argent', 1500000, '2026-02-12'),
+('Clou', 80, '2026-02-12'),
 
 -- Dons du 13 Février 2026
-('Riz (kg)', 600, '2026-02-13'),
-('Farine (kg)', 400, '2026-02-13'),
+('Riz', 600, '2026-02-13'),
+('Farine', 400, '2026-02-13'),
 ('Couverture', 300, '2026-02-13'),
-('Savon (carton)', 150, '2026-02-13'),
+('Savon', 150, '2026-02-13'),
 
 -- Dons du 14 Février 2026
-('Eau (bidon)', 500, '2026-02-14'),
-('Médicaments (kit)', 30, '2026-02-14'),
-('Don en argent (Ar)', 800000, '2026-02-14'),
-('Vêtements (lot)', 250, '2026-02-14');
+('Eau potable', 500, '2026-02-14'),
+('Médicaments', 30, '2026-02-14'),
+('Don en argent', 800000, '2026-02-14'),
+('Vêtements', 250, '2026-02-14');
 
 INSERT INTO BNGRC_dispatch (id_don, id_besoin, quantite_attribuee, status, date_dispatch) VALUES
 -- Distribution normale terminée

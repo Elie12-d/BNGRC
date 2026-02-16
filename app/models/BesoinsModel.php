@@ -78,4 +78,12 @@ class BesoinsModel
 
         return $st->execute([(int)$id]);
     }
+    public function getAllOrderByDate()
+    {
+        $st = $this->pdo->query("
+            SELECT * FROM BNGRC_besoins ORDER BY date_creation ASC
+        ");
+
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

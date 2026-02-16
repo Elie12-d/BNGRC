@@ -67,4 +67,12 @@ class DonsModel
 
         return $st->execute([(int)$id]);
     }
+    public function getAllOrderByDate()
+    {
+        $st = $this->pdo->query("
+            SELECT * FROM BNGRC_dons ORDER BY date_creation ASC
+        ");
+
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
