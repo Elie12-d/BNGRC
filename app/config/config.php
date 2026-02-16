@@ -63,7 +63,7 @@ $app->set('csp_nonce', $nonce);
 return [
     'database' => [
         'host'     => '127.0.0.1',
-        'dbname'   => ' db_s2_ETU004245',
+        'dbname'   => 'BNGRC',
         'user'     => 'root',
         'password' => '',
     ],

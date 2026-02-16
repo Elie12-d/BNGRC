@@ -18,6 +18,7 @@ CREATE TABLE BNGRC_besoins (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     quantite INT NOT NULL,
+    date_saisie DEFAULT CURRENT_TIMESTAMP,
     prix_unitaire DOUBLE,
     id_ville INT,
     FOREIGN KEY (id_ville) REFERENCES BNGRC_villes(id)

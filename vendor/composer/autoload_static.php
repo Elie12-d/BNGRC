@@ -13,39 +13,39 @@ class ComposerStaticInit4b3a253f57d31d773b6986822b8dc6cf
     );
 
     public static $prefixLengthsPsr4 = array (
-        'f' =>
+        'f' => 
         array (
             'flight\\' => 7,
         ),
-        'T' =>
+        'T' => 
         array (
             'Tracy\\' => 6,
         ),
-        'N' =>
+        'N' => 
         array (
             'Nette\\' => 6,
         ),
-        'A' =>
+        'A' => 
         array (
             'Ahc\\Cli\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'flight\\' =>
+        'flight\\' => 
         array (
             0 => __DIR__ . '/..' . '/flightphp/runway/src',
         ),
-        'Tracy\\' =>
+        'Tracy\\' => 
         array (
             0 => __DIR__ . '/..' . '/tracy/tracy/src',
         ),
-        'Nette\\' =>
+        'Nette\\' => 
         array (
             0 => __DIR__ . '/..' . '/nette/php-generator/src',
             1 => __DIR__ . '/..' . '/nette/utils/src',
         ),
-        'Ahc\\Cli\\' =>
+        'Ahc\\Cli\\' => 
         array (
             0 => __DIR__ . '/..' . '/adhocore/cli/src',
         ),
