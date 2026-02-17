@@ -18,7 +18,7 @@ class BngrcController {
         } catch (\Throwable $e) {
             // ignore, render will show empty list
         }
-        Flight::render('form_besoin', ['villes' => $villes, 'products' => $products]);
+        Flight::render('model', ['villes' => $villes, 'products' => $products, 'page' => 'besoins']);
     }
 
     // Traiter la soumission du besoin
@@ -41,7 +41,7 @@ class BngrcController {
         } catch (\Throwable $e) {
             // ignore
         }
-        Flight::render('form_don', ['products' => $products]);
+        Flight::render('model', ['products' => $products, 'page' => 'form_don']);
     }
 
     // Traiter la soumission du don

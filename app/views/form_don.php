@@ -1,38 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Saisir un Don — BNGRC</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css"/>
-</head>
-<body>
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-icon">🛡️</div>
-    <div>
-      <div class="logo-text">BNGRC</div>
-      <div class="logo-sub">Suivi des Dons</div>
-    </div>
-  </div>
-
-  <div class="sidebar-section">Navigation</div>
-  <a href="/dashboard" class="nav-item"><i class="fa-solid fa-gauge-high"></i> Tableau de Bord</a>
-  <a href="/villes"    class="nav-item"><i class="fa-solid fa-city"></i> Villes & Régions</a>
-  <a href="/besoins"   class="nav-item"><i class="fa-solid fa-list-check"></i> Besoins</a>
-  <a href="/dons"      class="nav-item active"><i class="fa-solid fa-hand-holding-heart"></i> Dons</a>
-  <a href="/dispatch"  class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Simulation Dispatch</a>
-
-  <div class="sidebar-section">Administration</div>
-  <a href="/produits"  class="nav-item"><i class="fa-solid fa-tags"></i> Catalogue Produits</a>
-
-  <div class="sidebar-footer">BNGRC Madagascar &copy; <?= date('Y') ?></div>
-</aside>
-
 <!-- MAIN -->
 <div class="main">
 
@@ -129,6 +94,4 @@
 
 </div><!-- /main -->
 
-<script src="/js/app.js"></script>
-</body>
-</html>
+<script src="<?= BASE_URL ?>/assets/js/app.js"></script>

@@ -50,7 +50,7 @@ $router->get('/achat/historique', [ AchatController::class, 'historique' ]);
 			} catch (\Throwable $e) {
 				// ignore, view will show empty list
 			}
-			$app->render('form_besoin', ['villes' => $villes, 'products' => $products ?? []]);
+			$app->render('', ['villes' => $villes, 'products' => $products ?? [], 'page' => 'besoins']);
 		});
 
 		$router->post('/besoin/save', function() use ($app) {
@@ -70,7 +70,7 @@ $router->get('/achat/historique', [ AchatController::class, 'historique' ]);
 				$model = new \app\models\BngrcModel(\Flight::db());
 				$products = $model->getProducts();
 			} catch (\Throwable $_) { }
-			$app->render('form_don', ['products' => $products]);
+			$app->render('model', ['products' => $products, 'page' => 'form_don']);
 		});
 
 		$router->post('/don/save', function() use ($app) {
@@ -87,5 +87,8 @@ $router->get('/achat/historique', [ AchatController::class, 'historique' ]);
 	$router->group('/recapitulatif', function(Router $router) use ($app) {
 		$router->get('', [ RecapitulatifController::class, 'showRecapitulatif' ]);
 		$router->get('/refresh', [ RecapitulatifController::class, 'refresh' ]);
+	});
+	$router->group('/achat', function(Router $router) use ($app) {
+		$router->get('/historique', [ AchatController::class, 'historique' ]);
 	});
 });

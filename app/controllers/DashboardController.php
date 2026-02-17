@@ -45,10 +45,11 @@ class DashboardController
 			$besoin['reste'] = $besoin['quantite'] - $besoin['attribue'];
 			$besoin['statut'] = $this->getStatutSimple($besoin['quantite'], $besoin['attribue']);
 		}
-		$this->app->render('dashboard', [
+		$this->app->render('model', [
 			'villes' => $villes,
 			'besoins' => $besoins,
-			'dispatchs' => $dispatchs
+			'dispatchs' => $dispatchs,
+			'page' => 'dashboard'
 		]);
 	}
 	private function getStatutSimple($quantite, $attribue)
