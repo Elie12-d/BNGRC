@@ -148,13 +148,13 @@ class BesoinsModel
                 $result[] = [
                     'nom' => $nom['nom'],
                     'quantite' => $nom['quantite'],
-                    'besoins' => $besoins
+                    'id' => $besoins[0]['id']
                 ];
             } else {
                 $result[] = [
                     'nom' => $nom['nom'],
                     'quantite' => $nom['quantite'],
-                    'besoins' => $besoins
+                    'id' => $besoins[0]['id']
                 ];
             }
         }

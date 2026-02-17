@@ -133,7 +133,9 @@ INSERT INTO BNGRC_dispatch (id_don, id_besoin, quantite_attribuee, status) VALUE
 (6, 8, 120, 'complet');
 
 INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_creation) VALUES
-('Matelas', 10, 30000, 5, '2026-02-08 08:00:00');
+('Matelas', 1, 30000, 1, '2026-02-08 08:00:00'),
+('Matelas', 3, 30000, 2, '2026-02-08 08:00:00'),
+('Matelas', 5, 30000, 3, '2026-02-08 08:00:00');
 
 INSERT INTO BNGRC_dons (nom, quantite, id_category, date_don) VALUES
-('Matelas', 15, 1, '2026-02-08');
+('Matelas', 6, 1, '2026-02-08');

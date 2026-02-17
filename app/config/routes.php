@@ -27,6 +27,7 @@ $router->get('/dashboard', [ DashboardController::class, 'dashboard' ]);
 $router->group('/dispatch', function(Router $router) {
 	$router->get('/auto-by-demande', [ AutoDispatchController::class, 'autoDispatchByOrderDemande' ]);
 	$router->get('/auto-by-quantity', [ AutoDispatchController::class, 'autoDispatchByOrderMinQuantity' ]);
+	$router->get('/auto-proportional', [ AutoDispatchController::class, 'autoDispatchProportional' ]);
 	
 });
 $router->get('/reset', [ ResetController::class, 'reset' ]);

@@ -127,13 +127,13 @@ class AutoDispatchController
         }
         $this->app->redirect('/Dashboard');
     }
-    public function autoDispatchByProportionnality()
+    public function autoDispatchProportional()
     {
         $besoinsModel = new BesoinsModel();
         $donsModel = new DonsModel();
         $dispatchModel = new DispatchModel();
 
-        $besoins = $besoinsModel->getAllSameBesoin();
+        $besoins = $besoinsModel->getAll();
         $dons = $donsModel->getAllOrderByDate();
 
         foreach ($dons as &$don) {
