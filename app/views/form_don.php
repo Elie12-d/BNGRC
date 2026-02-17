@@ -110,6 +110,12 @@
                 <option value="en_argent">En argent</option>
               </select>
             </div>
+            <div class="col-12">
+              <label class="form-label text-muted fw-semibold small text-uppercase">
+                <i class="fa-solid fa-box me-1"></i> Nom de votre produits <span class="text-danger">*</span>
+              </label>
+              <input type="text" placeholder="nom du produit">
+            </div>
 
             <!-- ✅ Champ dépendant de la nature - DÉPLACÉS À L'INTÉRIEUR -->
             <div class="col-12" id="field_en_nature" style="display:none;">
@@ -239,43 +245,6 @@
     const montantArg = document.getElementById('montant_argent');
     const nomArgentHidden = document.getElementById('nom_argent');
     const quantiteInput = document.querySelector('input[name="quantite"]');
-
-    function resetFields(){
-      // hide all
-      [fieldNature, fieldMat, fieldArg].forEach(f => { if (f) f.style.display = 'none'; });
-      // remove required attrs
-      if (nomNature) nomNature.required = false;
-      if (nomMat) nomMat.required = false;
-      if (montantArg) montantArg.required = false;
-      // restore nom hidden value to empty except argent
-      if (nomArgentHidden) nomArgentHidden.disabled = true;
-    }
-
-    function onChange(){
-      resetFields();
-      const v = nature.value;
-      if (v === 'en_nature'){
-        if (fieldNature) fieldNature.style.display = '';
-        if (nomNature) nomNature.required = true;
-        if (quantiteInput) quantiteInput.disabled = false;
-      } else if (v === 'en_materiaux'){
-        if (fieldMat) fieldMat.style.display = '';
-        if (nomMat) nomMat.required = true;
-        if (quantiteInput) quantiteInput.disabled = false;
-      } else if (v === 'en_argent'){
-        if (fieldArg) fieldArg.style.display = '';
-        if (montantArg) montantArg.required = true;
-        if (nomArgentHidden) { nomArgentHidden.disabled = false; }
-        // for argent, set quantity to 1 unless user wants otherwise
-        if (quantiteInput){ quantiteInput.value = 1; quantiteInput.readOnly = false; }
-      } else {
-        if (quantiteInput){ quantiteInput.readOnly = false; }
-      }
-    }
-
-    nature.addEventListener('change', onChange);
-    // initialize on load
-    onChange();
   })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -131,4 +131,40 @@ class BesoinsModel
 
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getAllNameBesoin()
+    {
+        $st = $this->pdo->query("SELECT nom, quantite FROM BNGRC_besoins GROUP BY nom");
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getAllSameBesoin()
+    {
+        $allNoms = $this->getAllNameBesoin();
+        $result = [];
+        foreach ($allNoms as $nom) {
+            $st = $this->pdo->prepare("SELECT * FROM BNGRC_besoins WHERE nom = ?");
+            $st->execute([$nom['nom']]);
+            $besoins = $st->fetchAll(PDO::FETCH_ASSOC);
+            if (count($besoins) > 1) {
+                $result[] = [
+                    'nom' => $nom['nom'],
+                    'quantite' => $nom['quantite'],
+                    'besoins' => $besoins
+                ];
+            } else {
+                $result[] = [
+                    'nom' => $nom['nom'],
+                    'quantite' => $nom['quantite'],
+                    'besoins' => $besoins
+                ];
+            }
+        }
+        return $result;
+    }
+    public function getTotalQuantiteByName($nom)
+    {
+        $st = $this->pdo->prepare("SELECT SUM(quantite) as total FROM BNGRC_besoins WHERE nom = ?");
+        $st->execute([$nom]);
+        $result = $st->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
 }
