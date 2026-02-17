@@ -3,6 +3,7 @@
 use app\controllers\AutoDispatchController;
 use app\controllers\DashboardController;
 use app\controllers\BngrcController;
+use app\controllers\DispatchController;
 use flight\Engine;
 use flight\net\Router;
 
@@ -20,6 +21,10 @@ $router->get('/dashboard', [ DashboardController::class, 'dashboard' ]);
 
 // Other routes
 $router->get('/disp', [ AutoDispatchController::class, 'autoDispatch' ]);
+// Show the dispatch (purchase) form at /dispatch
+$router->get('/dispatch', [ DispatchController::class, 'showForm' ]);
+// Handle validation/submit from the purchase form
+$router->post('/achat/validate', [ DispatchController::class, 'validate' ]);
 
 
 	// Backwards-compat / convenience: redirect /villes to the besoins form (or implement list later)

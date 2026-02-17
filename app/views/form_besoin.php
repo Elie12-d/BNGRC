@@ -84,20 +84,71 @@
           <!-- Nature du besoin -->
           <div class="form-group">
             <label class="form-label">
-              <i class="fa-solid fa-box"></i> Nature du besoin
+              <i class="fa-solid fa-box"></i> Type / Nature du besoin
+              <span class="required">*</span>
+            </label>
+            <select name="nature" id="nature_select" class="form-select" required>
+              <option value="">— Sélectionner la nature —</option>
+              <option value="en_nature">En nature</option>
+              <option value="en_materiaux">En matériaux</option>
+              <option value="en_argent">En argent</option>
+            </select>
+          </div>
+
+          <!-- Champ dépendant de la nature -->
+          <div class="form-group" id="field_en_nature" style="display:none;">
+            <label class="form-label">
+              <i class="fa-solid fa-seedling"></i> Produit (nature)
               <span class="required">*</span>
             </label>
             <?php if (!empty($products)): ?>
-              <select name="nom" class="form-select" required>
-                <option value="">— Sélectionner un produit —</option>
-                <?php foreach ($products as $p): ?>
-                  <option value="<?= htmlspecialchars($p) ?>"><?= htmlspecialchars($p) ?></option>
-                <?php endforeach; ?>
+              <select name="nom" id="nom_en_nature" class="form-select">
+                <option value="">— Sélectionner un produit (ex: Riz, Huile) —</option>
+                <?php foreach ($products as $p):
+                  // crude heuristic: treat items that look like food as "nature" by default
+                  $lower = mb_strtolower($p, 'UTF-8');
+                  $is_nature = preg_match('/riz|huile|sucre|lait|mais|farine|biscuit|savon|eau|moustiquaire|vêtements|pull|couverture|medicament|médicament/', $lower);
+                  if ($is_nature): ?>
+                    <option value="<?= htmlspecialchars($p) ?>"><?= htmlspecialchars($p) ?></option>
+                <?php endif; endforeach; ?>
               </select>
             <?php else: ?>
-              <input type="text" name="nom" class="form-input" required
-                     placeholder="Ex: Riz, Tôle, Ciment"/>
+              <input type="text" name="nom" id="nom_en_nature" class="form-input"
+                     placeholder="Ex: Riz, Huile" />
             <?php endif; ?>
+          </div>
+
+          <div class="form-group" id="field_en_materiaux" style="display:none;">
+            <label class="form-label">
+              <i class="fa-solid fa-hammer"></i> Matériel / Matériaux
+              <span class="required">*</span>
+            </label>
+            <?php if (!empty($products)): ?>
+              <select name="nom" id="nom_en_materiaux" class="form-select">
+                <option value="">— Sélectionner un matériel (ex: Tôle, Clou) —</option>
+                <?php foreach ($products as $p):
+                  $lower = mb_strtolower($p, 'UTF-8');
+                  $is_mat = preg_match('/t[oô]le|clou|b[aâ]che|ciment|clou|tôle|clou|tube|plaque/', $lower);
+                  if ($is_mat): ?>
+                    <option value="<?= htmlspecialchars($p) ?>"><?= htmlspecialchars($p) ?></option>
+                <?php endif; endforeach; ?>
+              </select>
+            <?php else: ?>
+              <input type="text" name="nom" id="nom_en_materiaux" class="form-input"
+                     placeholder="Ex: Tôle, Clou" />
+            <?php endif; ?>
+          </div>
+
+          <div class="form-group" id="field_en_argent" style="display:none;">
+            <label class="form-label">
+              <i class="fa-solid fa-money-bill-wave"></i> Montant demandé (Ar)
+              <span class="required">*</span>
+            </label>
+            <input type="number" step="0.01" name="prix_unitaire" id="montant_argent" class="form-input"
+                   placeholder="Ex: 150000" />
+            <small class="form-hint">Pour une demande en argent, indiquez le montant total (Ar). La quantité sera enregistrée comme 1.</small>
+            <!-- hidden field to ensure nom is set to 'Argent' on submit -->
+            <input type="hidden" name="nom" id="nom_argent" value="Argent" />
           </div>
 
           <!-- Quantité -->
@@ -144,5 +195,58 @@
 </div><!-- /main -->
 
 <script src="/js/app.js"></script>
+<script>
+  (function(){
+    const nature = document.getElementById('nature_select');
+    if (!nature) return;
+
+    const fieldNature = document.getElementById('field_en_nature');
+    const fieldMat = document.getElementById('field_en_materiaux');
+    const fieldArg = document.getElementById('field_en_argent');
+
+    const nomNature = document.getElementById('nom_en_nature');
+    const nomMat = document.getElementById('nom_en_materiaux');
+    const montantArg = document.getElementById('montant_argent');
+    const nomArgentHidden = document.getElementById('nom_argent');
+    const quantiteInput = document.querySelector('input[name="quantite"]');
+
+    function resetFields(){
+      // hide all
+      [fieldNature, fieldMat, fieldArg].forEach(f => { if (f) f.style.display = 'none'; });
+      // remove required attrs
+      if (nomNature) nomNature.required = false;
+      if (nomMat) nomMat.required = false;
+      if (montantArg) montantArg.required = false;
+      // restore nom hidden value to empty except argent
+      if (nomArgentHidden) nomArgentHidden.disabled = true;
+    }
+
+    function onChange(){
+      resetFields();
+      const v = nature.value;
+      if (v === 'en_nature'){
+        if (fieldNature) fieldNature.style.display = '';
+        if (nomNature) nomNature.required = true;
+        if (quantiteInput) quantiteInput.disabled = false;
+      } else if (v === 'en_materiaux'){
+        if (fieldMat) fieldMat.style.display = '';
+        if (nomMat) nomMat.required = true;
+        if (quantiteInput) quantiteInput.disabled = false;
+      } else if (v === 'en_argent'){
+        if (fieldArg) fieldArg.style.display = '';
+        if (montantArg) montantArg.required = true;
+        if (nomArgentHidden) { nomArgentHidden.disabled = false; }
+        // for argent, set quantity to 1 unless user wants otherwise
+        if (quantiteInput){ quantiteInput.value = 1; quantiteInput.readOnly = true; }
+      } else {
+        if (quantiteInput){ quantiteInput.readOnly = false; }
+      }
+    }
+
+    nature.addEventListener('change', onChange);
+    // initialize on load
+    onChange();
+  })();
+</script>
 </body>
 </html>
