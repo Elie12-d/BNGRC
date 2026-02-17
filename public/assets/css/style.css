@@ -871,11 +871,12 @@ a:hover {
   padding: 30px 40px;
 }
 
-/* Conteneur central élargi */
 .content {
-  max-width: 1500px; /* avant probablement 1200px */
   width: 100%;
-  margin: 0 auto;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
 }
 
 /* Carte principale élargie */

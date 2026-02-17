@@ -8,6 +8,14 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css"/>
+  <style>
+    /* Conteneur central élargi */
+    .content {
+      max-width: 95%;
+      width: 80%;
+      margin: 0 auto;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,13 +31,13 @@
 
   <div class="sidebar-section">Navigation</div>
   <a href="/dashboard" class="nav-item"><i class="fa-solid fa-gauge-high"></i> Tableau de Bord</a>
-  <a href="/villes"    class="nav-item"><i class="fa-solid fa-city"></i> Villes & Régions</a>
-  <a href="/besoins"   class="nav-item active"><i class="fa-solid fa-list-check"></i> Besoins</a>
-  <a href="/dons"      class="nav-item"><i class="fa-solid fa-hand-holding-heart"></i> Dons</a>
-  <a href="/dispatch"  class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Simulation Dispatch</a>
+  <a href="/villes" class="nav-item"><i class="fa-solid fa-city"></i> Villes & Régions</a>
+  <a href="/besoins" class="nav-item active"><i class="fa-solid fa-list-check"></i> Besoins</a>
+  <a href="/dons" class="nav-item"><i class="fa-solid fa-hand-holding-heart"></i> Dons</a>
+  <a href="/dispatch" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Simulation Dispatch</a>
 
   <div class="sidebar-section">Administration</div>
-  <a href="/produits"  class="nav-item"><i class="fa-solid fa-tags"></i> Catalogue Produits</a>
+  <a href="/produits" class="nav-item"><i class="fa-solid fa-tags"></i> Catalogue Produits</a>
 
   <div class="sidebar-footer">BNGRC Madagascar &copy; <?= date('Y') ?></div>
 </aside>
@@ -85,75 +93,53 @@
               </select>
             </div>
 
-          <!-- Nature du besoin -->
-          <div class="form-group">
-            <label class="form-label">
-              <i class="fa-solid fa-box"></i> Type / Nature du besoin
-              <span class="required">*</span>
-            </label>
-            <select name="nature" id="nature_select" class="form-select" required>
-              <option value="">— Sélectionner la nature —</option>
-              <option value="en_nature">En nature</option>
-              <option value="en_materiaux">En matériaux</option>
-              <option value="en_argent">En argent</option>
-            </select>
-          </div>
-
-          <!-- Champ dépendant de la nature -->
-          <div class="form-group" id="field_en_nature" style="display:none;">
-            <label class="form-label">
-              <i class="fa-solid fa-seedling"></i> Produit (nature)
-              <span class="required">*</span>
-            </label>
-            <?php if (!empty($products)): ?>
-              <select name="nom" id="nom_en_nature" class="form-select">
-                <option value="">— Sélectionner un produit (ex: Riz, Huile) —</option>
-                <?php foreach ($products as $p):
-                  // crude heuristic: treat items that look like food as "nature" by default
-                  $lower = mb_strtolower($p, 'UTF-8');
-                  $is_nature = preg_match('/riz|huile|sucre|lait|mais|farine|biscuit|savon|eau|moustiquaire|vêtements|pull|couverture|medicament|médicament/', $lower);
-                  if ($is_nature): ?>
-                    <option value="<?= htmlspecialchars($p) ?>"><?= htmlspecialchars($p) ?></option>
-                <?php endif; endforeach; ?>
+            <!-- Nature du besoin -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-secondary">
+                <i class="fa-solid fa-box"></i> Type / Nature du besoin
+                <span class="text-danger">*</span>
+              </label>
+              <select name="nature" id="nature_select" class="form-select form-select-lg rounded-3 border-2" required>
+                <option value="">— Sélectionner la nature —</option>
+                <option value="en_nature">En nature</option>
+                <option value="en_materiaux">En matériaux</option>
+                <option value="en_argent">En argent</option>
               </select>
-            <?php else: ?>
-              <input type="text" name="nom" id="nom_en_nature" class="form-input"
-                     placeholder="Ex: Riz, Huile" />
-            <?php endif; ?>
-          </div>
+            </div>
 
-          <div class="form-group" id="field_en_materiaux" style="display:none;">
-            <label class="form-label">
-              <i class="fa-solid fa-hammer"></i> Matériel / Matériaux
-              <span class="required">*</span>
-            </label>
-            <?php if (!empty($products)): ?>
-              <select name="nom" id="nom_en_materiaux" class="form-select">
-                <option value="">— Sélectionner un matériel (ex: Tôle, Clou) —</option>
-                <?php foreach ($products as $p):
-                  $lower = mb_strtolower($p, 'UTF-8');
-                  $is_mat = preg_match('/t[oô]le|clou|b[aâ]che|ciment|clou|tôle|clou|tube|plaque/', $lower);
-                  if ($is_mat): ?>
-                    <option value="<?= htmlspecialchars($p) ?>"><?= htmlspecialchars($p) ?></option>
-                <?php endif; endforeach; ?>
+            <!-- Champ dépendant EN NATURE -->
+            <div class="form-group mt-3" id="field_en_nature" style="display:none;">
+              <label class="form-label"><i class="fa-solid fa-seedling"></i> Produit (nature)</label>
+              <select id="nom_en_nature_select" class="form-select mb-2">
+                <option value="">— Sélectionner un produit —</option>
+                <?php foreach ($products as $p): ?>
+                  <option value="<?= htmlspecialchars($p) ?>"><?= htmlspecialchars($p) ?></option>
+                <?php endforeach; ?>
               </select>
-            <?php else: ?>
-              <input type="text" name="nom" id="nom_en_materiaux" class="form-input"
-                     placeholder="Ex: Tôle, Clou" />
-            <?php endif; ?>
-          </div>
+              <input type="text" id="nom_en_nature_free" class="form-control" placeholder="Ou saisir un produit personnalisé (ex: Riz local)" />
+              <input type="hidden" name="nom" id="nom_en_nature_final" />
+            </div>
 
-          <div class="form-group" id="field_en_argent" style="display:none;">
-            <label class="form-label">
-              <i class="fa-solid fa-money-bill-wave"></i> Montant demandé (Ar)
-              <span class="required">*</span>
-            </label>
-            <input type="number" step="0.01" name="prix_unitaire" id="montant_argent" class="form-input"
-                   placeholder="Ex: 150000" />
-            <small class="form-hint">Pour une demande en argent, indiquez le montant total (Ar). La quantité sera enregistrée comme 1.</small>
-            <!-- hidden field to ensure nom is set to 'Argent' on submit -->
-            <input type="hidden" name="nom" id="nom_argent" value="Argent" />
-          </div>
+            <!-- Champ dépendant EN MATERIAUX -->
+            <div class="form-group mt-3" id="field_en_materiaux" style="display:none;">
+              <label class="form-label"><i class="fa-solid fa-hammer"></i> Matériel / Matériaux</label>
+              <select id="nom_en_materiaux_select" class="form-select mb-2">
+                <option value="">— Sélectionner un matériel —</option>
+                <?php foreach ($products as $p): ?>
+                  <option value="<?= htmlspecialchars($p) ?>"><?= htmlspecialchars($p) ?></option>
+                <?php endforeach; ?>
+              </select>
+              <input type="text" id="nom_en_materiaux_free" class="form-control" placeholder="Ou saisir un matériel personnalisé (ex: Tôle galvanisée)" />
+              <input type="hidden" name="nom" id="nom_en_materiaux_final" />
+            </div>
+
+            <!-- Champ EN ARGENT -->
+            <div class="form-group mt-3" id="field_en_argent" style="display:none;">
+              <label class="form-label"><i class="fa-solid fa-money-bill-wave"></i> Montant demandé (Ar)</label>
+              <input type="number" step="0.01" name="prix_unitaire" id="montant_argent" class="form-control" placeholder="Ex: 150000" />
+              <small class="form-text text-muted">Pour une demande en argent, indiquez le montant total (Ar). La quantité sera enregistrée comme 1.</small>
+              <input type="hidden" name="nom" id="nom_argent" value="Argent" />
+            </div>
 
             <!-- Quantité -->
             <div class="col-md-6">
@@ -161,8 +147,7 @@
                 <i class="fa-solid fa-scale-balanced me-1 text-primary"></i> Quantité
                 <span class="text-danger">*</span>
               </label>
-              <input type="number" name="quantite" class="form-control form-control-lg rounded-3 border-2"
-                     min="1" required placeholder="Ex: 500"/>
+              <input type="number" name="quantite" class="form-control form-control-lg rounded-3 border-2" min="1" required placeholder="Ex: 500"/>
             </div>
 
             <!-- Prix Unitaire -->
@@ -171,12 +156,9 @@
                 <i class="fa-solid fa-coins me-1 text-primary"></i> Prix Unitaire (Ar)
                 <span class="text-danger">*</span>
               </label>
-              <input type="number" step="0.01" name="prix_unitaire"
-                     class="form-control form-control-lg rounded-3 border-2"
-                     required placeholder="Ex: 3000"/>
+              <input type="number" step="0.01" name="prix_unitaire" class="form-control form-control-lg rounded-3 border-2" required placeholder="Ex: 3000"/>
               <div class="form-text text-muted">
-                <i class="fa-solid fa-circle-info me-1"></i>
-                Le prix unitaire ne changera pas une fois enregistré.
+                <i class="fa-solid fa-circle-info me-1"></i> Le prix unitaire ne changera pas une fois enregistré.
               </div>
             </div>
 
@@ -205,63 +187,53 @@
 
 </div><!-- /main -->
 
-<script src="/js/app.js"></script>
+<!-- JS pour synchroniser select / saisie libre -->
 <script>
-  (function(){
-    const nature = document.getElementById('nature_select');
-    if (!nature) return;
+(function(){
+  const nature = document.getElementById('nature_select');
 
-    const fieldNature = document.getElementById('field_en_nature');
-    const fieldMat = document.getElementById('field_en_materiaux');
-    const fieldArg = document.getElementById('field_en_argent');
+  const fieldNature = document.getElementById('field_en_nature');
+  const fieldMat = document.getElementById('field_en_materiaux');
+  const fieldArg = document.getElementById('field_en_argent');
 
-    const nomNature = document.getElementById('nom_en_nature');
-    const nomMat = document.getElementById('nom_en_materiaux');
-    const montantArg = document.getElementById('montant_argent');
-    const nomArgentHidden = document.getElementById('nom_argent');
-    const quantiteInput = document.querySelector('input[name="quantite"]');
+  const quantiteInput = document.querySelector('input[name="quantite"]');
 
-    function resetFields(){
-      // hide all
-      [fieldNature, fieldMat, fieldArg].forEach(f => { if (f) f.style.display = 'none'; });
-      // remove required attrs
-      if (nomNature) nomNature.required = false;
-      if (nomMat) nomMat.required = false;
-      if (montantArg) montantArg.required = false;
-      // restore nom hidden value to empty except argent
-      if (nomArgentHidden) nomArgentHidden.disabled = true;
-    }
+  const natureSelect = document.getElementById('nom_en_nature_select');
+  const natureFree = document.getElementById('nom_en_nature_free');
+  const natureFinal = document.getElementById('nom_en_nature_final');
 
-    function onChange(){
-      resetFields();
-      const v = nature.value;
-      if (v === 'en_nature'){
-        if (fieldNature) fieldNature.style.display = '';
-        if (nomNature) nomNature.required = true;
-        if (quantiteInput) quantiteInput.disabled = false;
-      } else if (v === 'en_materiaux'){
-        if (fieldMat) fieldMat.style.display = '';
-        if (nomMat) nomMat.required = true;
-        if (quantiteInput) quantiteInput.disabled = false;
-      } else if (v === 'en_argent'){
-        // if (fieldArg) fieldArg.style.display = '';
-        if (montantArg) montantArg.required = true;
-        if (nomArgentHidden) { nomArgentHidden.disabled = false; }
-        // for argent, set quantity to 1 unless user wants otherwise
-        if (quantiteInput){ quantiteInput.value = 1; }
-      } else {
-        if (quantiteInput){ quantiteInput.readOnly = false; }
-      }
-    }
+  const matSelect = document.getElementById('nom_en_materiaux_select');
+  const matFree = document.getElementById('nom_en_materiaux_free');
+  const matFinal = document.getElementById('nom_en_materiaux_final');
 
-    nature.addEventListener('change', onChange);
-    // initialize on load
-    onChange();
-  })();
+  function resetFields(){
+    [fieldNature, fieldMat, fieldArg].forEach(f => { if(f) f.style.display='none'; });
+    if(natureFinal) natureFinal.value = '';
+    if(matFinal) matFinal.value = '';
+  }
+
+  function syncNature(){ if(natureFinal) natureFinal.value = natureFree.value || natureSelect.value; }
+  function syncMat(){ if(matFinal) matFinal.value = matFree.value || matSelect.value; }
+
+  function onChange(){
+    resetFields();
+    const v = nature.value;
+    if(v==='en_nature'){ fieldNature.style.display=''; if(quantiteInput) quantiteInput.disabled=false; }
+    if(v==='en_materiaux'){ fieldMat.style.display=''; if(quantiteInput) quantiteInput.disabled=false; }
+    if(v==='en_argent'){ fieldArg.style.display=''; if(quantiteInput){ quantiteInput.value=1; quantiteInput.disabled=true; } }
+  }
+
+  if(natureSelect) natureSelect.addEventListener('change', syncNature);
+  if(natureFree) natureFree.addEventListener('input', syncNature);
+  if(matSelect) matSelect.addEventListener('change', syncMat);
+  if(matFree) matFree.addEventListener('input', syncMat);
+  if(nature) nature.addEventListener('change', onChange);
+
+  onChange();
+})();
 </script>
-</body>
-</html>
+
 <script src="<?= BASE_URL ?>/assets/js/app.js"></script>
-<script src="<?= BASE_URL ?>/assets/js/form_besoin.js"></script>
+<!-- <script src="<?= BASE_URL ?>/assets/js/form_besoin.js"></script> -->
 </body>
 </html>

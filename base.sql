@@ -66,76 +66,99 @@ CREATE TABLE BNGRC_achat(
     FOREIGN KEY (id_don) REFERENCES BNGRC_dons(id)
 );
 
+-- Script d'insertion des données du cyclone S3
+-- ATTENTION: Ce script doit être exécuté après la création de la base de données et des tables
+
+-- ===========================
+-- 1. INSERTION DES RÉGIONS
+-- ===========================
 INSERT INTO BNGRC_regions (nom) VALUES
-('Analamanga'),
 ('Atsinanana'),
-('Haute Matsiatra'),
-('Boeny'),
-('Diana');
+('Vatovavy'),
+('Atsimo-Atsinanana'),
+('Diana'),
+('Menabe');
 
+-- ===========================
+-- 2. INSERTION DES VILLES
+-- ===========================
 INSERT INTO BNGRC_villes (nom, id_region) VALUES
-('Antananarivo', 1),
-('Ambohidratrimo', 1),
-('Toamasina', 2),
-('Fenerive Est', 2),
-('Fianarantsoa', 3),
-('Ambalavao', 3),
-('Mahajanga', 4),
-('Ambato Boeny', 4),
-('Antsiranana', 5),
-('Nosy Be', 5);
+('Toamasina', 1),
+('Mananjary', 2),
+('Farafangana', 3),
+('Nosy Be', 4),
+('Morondava', 5);
 
-INSERT INTO BNGRC_users (username, password, type) VALUES
-('admin', 'admin123', 'admin'),
-('bngrc_agent1', 'agent123', 'agent'),
-('bngrc_agent2', 'agent123', 'agent'),
-('user1', 'user123', 'user'),
-('user2', 'user123', 'user');
+-- ===========================
+-- 3. INSERTION DES CATÉGORIES
+-- ===========================
+INSERT INTO BNGRC_category (nom) VALUES
+('nature'),
+('materiel'),
+('argent');
 
-INSERT INTO BNGRC_category(nom) VALUES
-('en nature'),
-('en materiaux'),
-('en argent');
+-- ===========================
+-- 4. INSERTION DES BESOINS
+-- ===========================
+-- Toamasina (id_ville = 1)
+INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_saisie) VALUES
+('Riz (kg)', 800, 3000, 1, '2026-02-16'),
+('Eau (L)', 1500, 1000, 1, '2026-02-15'),
+('Tôle', 120, 25000, 1, '2026-02-16'),
+('Bâche', 200, 15000, 1, '2026-02-15'),
+('Argent', 12000000, 1, 1, '2026-02-16'),
+('Riz (kg)', 500, 3000, 1, '2026-02-15'),
+('groupe', 3, 6750000, 1, '2026-02-15');
 
-INSERT INTO BNGRC_dons (nom, quantite, id_category, date_don) VALUES
-('Riz', 500, 1, '2026-02-01'),
-('Haricots', 200, 1, '2026-02-02'),
-('Huile', 120, 1, '2026-02-03'),
-('Paracetamol', 300, 2, '2026-02-03'),
-('Serum physiologique', 100, 2, '2026-02-04'),
-('Tee shirt', 250, 3, '2026-02-04'),
-('Couverture', 80, 3, '2026-02-05'),
-('Eau potable', 1000, 1, '2026-02-05'),
-('Bidon 20L', 150, 2, '2026-02-06'),
-('Tente', 30, 3, '2026-02-06');
+-- Mananjary (id_ville = 2)
+INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_saisie) VALUES
+('Huile (L)', 120, 6000, 2, '2026-02-16'),
+('Tôle', 80, 25000, 2, '2026-02-15'),
+('Clous (kg)', 60, 8000, 2, '2026-02-16'),
+('Argent', 6000000, 1, 2, '2026-02-15');
 
-INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_creation) VALUES
-('Riz', 300, 2500, 1, '2026-02-07 08:10:00'),
-('Haricots', 150, 3500, 1, '2026-02-07 08:15:00'),
-('Eau potable', 500, 500, 3, '2026-02-07 09:00:00'),
-('Paracetamol', 200, 300, 3, '2026-02-07 09:10:00'),
-('Couverture', 50, 20000, 5, '2026-02-07 10:00:00'),
-('Tente', 10, 150000, 7, '2026-02-07 10:30:00'),
-('Bidon 20L', 80, 8000, 9, '2026-02-07 11:00:00'),
-('Tee shirt', 120, 5000, 10, '2026-02-07 11:15:00');
+-- Farafangana (id_ville = 3)
+INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_saisie) VALUES
+('Riz (kg)', 600, 3000, 3, '2026-02-16'),
+('Eau (L)', 1000, 1000, 3, '2026-02-15'),
+('Bâche', 150, 15000, 3, '2026-02-16'),
+('Bois', 100, 10000, 3, '2026-02-15'),
+('Argent', 8000000, 1, 3, '2026-02-16');
 
-INSERT INTO BNGRC_dispatch (id_don, id_besoin, quantite_attribuee, status) VALUES
-(1, 1, 250, 'partiel'),
-(1, 1, 50, 'complet'),
-(2, 2, 150, 'complet'),
-(8, 3, 400, 'partiel'),
-(8, 3, 100, 'complet'),
-(4, 4, 180, 'partiel'),
-(4, 4, 20, 'complet'),
-(7, 5, 50, 'complet'),
-(10, 6, 10, 'complet'),
-(9, 7, 80, 'complet'),
-(6, 8, 120, 'complet');
+-- Nosy Be (id_ville = 4)
+INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_saisie) VALUES
+('Riz (kg)', 300, 3000, 4, '2026-02-15'),
+('Haricots', 200, 4000, 4, '2026-02-16'),
+('Tôle', 40, 25000, 4, '2026-02-15'),
+('Clous (kg)', 30, 8000, 4, '2026-02-16'),
+('Argent', 4000000, 1, 4, '2026-02-15');
 
-INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_creation) VALUES
-('Matelas', 1, 30000, 1, '2026-02-08 08:00:00'),
-('Matelas', 3, 30000, 2, '2026-02-08 08:00:00'),
-('Matelas', 5, 30000, 3, '2026-02-08 08:00:00');
+-- Morondava (id_ville = 5)
+INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_saisie) VALUES
+('Riz (kg)', 700, 3000, 5, '2026-02-16'),
+('Eau (L)', 1200, 1000, 5, '2026-02-15'),
+('Bâche', 180, 15000, 5, '2026-02-16'),
+('Bois', 150, 10000, 5, '2026-02-15'),
+('Argent', 10000000, 1, 5, '2026-02-16');
 
-INSERT INTO BNGRC_dons (nom, quantite, id_category, date_don) VALUES
-('Matelas', 6, 1, '2026-02-08');
+-- ===========================
+-- VÉRIFICATION DES INSERTIONS
+-- ===========================
+SELECT 'Régions insérées:' AS Info;
+SELECT * FROM BNGRC_regions;
+
+SELECT 'Villes insérées:' AS Info;
+SELECT * FROM BNGRC_villes;
+
+SELECT 'Catégories insérées:' AS Info;
+SELECT * FROM BNGRC_category;
+
+SELECT 'Besoins insérés:' AS Info;
+SELECT COUNT(*) AS total_besoins FROM BNGRC_besoins;
+
+SELECT 'Récapitulatif par ville:' AS Info;
+SELECT v.nom AS ville, COUNT(b.id) AS nombre_besoins, SUM(b.quantite * b.prix_unitaire) AS valeur_totale
+FROM BNGRC_villes v
+LEFT JOIN BNGRC_besoins b ON v.id = b.id_ville
+GROUP BY v.nom
+ORDER BY v.nom;
