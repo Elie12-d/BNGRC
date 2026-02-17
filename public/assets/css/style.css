@@ -796,3 +796,108 @@ body {
   0% { transform: translateX(-100%) rotate(45deg); }
   100% { transform: translateX(100%) rotate(45deg); }
 }
+
+/* ════════════════════════════════════════════════
+   BOOTSTRAP OVERRIDE — SUPPRESSION BLEU
+   Adaptation complète au thème BNGRC
+════════════════════════════════════════════════ */
+
+/* PRIMARY */
+.bg-primary {
+  background: linear-gradient(135deg, var(--apple-green), var(--orchid)) !important;
+}
+
+.text-primary {
+  color: var(--apple-green) !important;
+}
+
+.border-primary {
+  border-color: var(--apple-green) !important;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--apple-green), var(--orchid)) !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(141, 182, 0, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(141, 182, 0, 0.4);
+}
+
+
+/* ALERT INFO (remplace bleu clair) */
+.alert-info {
+  background: linear-gradient(
+    90deg,
+    rgba(141, 182, 0, 0.12),
+    rgba(192, 132, 151, 0.10)
+  ) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+
+/* FORM FOCUS (supprime contour bleu Bootstrap) */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--apple-green) !important;
+  box-shadow: 0 0 0 3px rgba(141, 182, 0, 0.15) !important;
+}
+
+
+/* BADGES */
+.badge.bg-primary {
+  background: var(--apple-green) !important;
+}
+
+
+/* LINKS */
+a {
+  color: var(--apple-green);
+}
+
+a:hover {
+  color: var(--orchid);
+}
+
+/* ═══════════════════════════════════════
+   AGRANDISSEMENT PAGE ACHAT / DISPATCH
+═══════════════════════════════════════ */
+
+/* Agrandit la zone principale */
+.main {
+  padding: 30px 40px;
+}
+
+/* Conteneur central élargi */
+.content {
+  max-width: 1500px; /* avant probablement 1200px */
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Carte principale élargie */
+.form-card--wide {
+  max-width: 1400px;   /* largeur plus confortable */
+  width: 100%;
+  padding: 32px 36px;
+  border-radius: 18px;
+}
+
+/* Table respire mieux */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Ajustement pour grands écrans */
+@media (min-width: 1600px) {
+  .content {
+    max-width: 1700px;
+  }
+
+  .form-card--wide {
+    max-width: 1600px;
+  }
+}
