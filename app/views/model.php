@@ -105,6 +105,7 @@
         <a href="<?= BASE_URL ?>/achat/historique" class="nav-item <?= $page === 'historique' ? 'active' : '' ?>">
             <i class="fa-solid fa-list"></i> Liste des achats
         </a>
+        <a href="<?= BASE_URL ?>/dispatch" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>Formulaire achat</a>
 
         <div class="sidebar-section">Administration</div>
         <a href="/produits" class="nav-item"><i class="fa-solid fa-tags"></i> Catalogue Produits</a>
