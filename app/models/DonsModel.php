@@ -99,4 +99,10 @@ class DonsModel
         $st = $this->pdo->prepare($sql);
         return $st->execute($params);
     }
+    public function reset() {
+        $sql = "DELETE FROM BNGRC_dons";
+        $this->pdo->exec($sql);
+        $sql = "ALTER TABLE BNGRC_dons AUTO_INCREMENT = 1";
+        $this->pdo->exec($sql);
+    }
 }

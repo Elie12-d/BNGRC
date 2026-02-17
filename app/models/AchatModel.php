@@ -1,12 +1,13 @@
 <?php
 namespace app\models;
+use Flight;
 use PDO;
 class AchatModel {
 
     private $pdo;
 
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
+    public function __construct() {
+        $this->pdo = Flight::db();
     }
 
     // CREATE
@@ -45,5 +46,9 @@ class AchatModel {
     public function delete($id) {
         $stmt = $this->pdo->prepare("DELETE FROM BNGRC_achat WHERE id = ?");
         return $stmt->execute([$id]);
+    }
+    public function reset() {
+        $this->pdo->exec("DELETE FROM BNGRC_achat");
+        $this->pdo->exec("ALTER TABLE BNGRC_achat AUTO_INCREMENT = 1");
     }
 }

@@ -70,4 +70,10 @@ class UsersModel
 
         return $st->execute([(int)$id]);
     }
+    public function reset() {
+        $sql = "DELETE FROM BNGRC_users";
+        $this->pdo->exec($sql);
+        $sql = "ALTER TABLE BNGRC_users AUTO_INCREMENT = 1";
+        $this->pdo->exec($sql);
+    }
 }

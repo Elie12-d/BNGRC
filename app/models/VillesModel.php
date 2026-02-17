@@ -72,4 +72,10 @@ class VillesModel
 
         return $st->execute([(int)$id]);
     }
+    public function reset() {
+        $sql = "DELETE FROM BNGRC_villes";
+        $this->pdo->exec($sql);
+        $sql = "ALTER TABLE BNGRC_villes AUTO_INCREMENT = 1";
+        $this->pdo->exec($sql);
+    }
 }

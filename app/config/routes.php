@@ -6,6 +6,7 @@ use app\controllers\BngrcController;
 use app\controllers\DispatchController;
 use app\controllers\RecapitulatifController;
 use app\controllers\AchatController;
+use app\controllers\ResetController;
 use flight\Engine;
 use flight\net\Router;
 
@@ -23,6 +24,7 @@ $router->get('/dashboard', [ DashboardController::class, 'dashboard' ]);
 
 // Other routes
 $router->get('/disp', [ AutoDispatchController::class, 'autoDispatch' ]);
+$router->get('/reset', [ ResetController::class, 'reset' ]);
 // Show the dispatch (purchase) form at /dispatch
 $router->get('/dispatch', [ DispatchController::class, 'showForm' ]);
 // Handle validation/submit from the purchase form

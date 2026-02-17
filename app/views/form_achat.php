@@ -1,14 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simuler / Valider Achat — BNGRC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css"/>
+</head>
+<body>
+<?php
+if (!isset($villes)) $villes = [];
+if (!isset($besoins)) $besoins = [];
+if (!isset($available_money)) $available_money = 0;
+?>
+
+<!-- MAIN -->
 <div class="main">
-
-  <header class="topbar">
-    <div class="topbar-title">Simulation <span>Achat</span></div>
-    <div class="topbar-actions">
-      <a href="/achats" class="btn btn-outline"><i class="fa-solid fa-rotate"></i> Actualiser</a>
-      <a href="/dispatch" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Dispatch</a>
-      <div class="avatar">A</div>
-    </div>
-  </header>
-
   <div class="content" style="max-width: 1400px;">
 
     <!-- BREADCRUMB -->
@@ -58,10 +67,25 @@
           </div>
         </div>
 
-      <div style="margin-left:auto;">
-        <label><strong>Dons en argent disponibles</strong></label>
-        <div id="available_money" data-available="<?= $available_money ?>" style="font-size:1.1rem; font-weight:600;"><?= number_format($available_money, 0, '.', ' ') ?> Ar</div>
-     
+        <!-- Dons disponibles -->
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100 bg-success bg-opacity-10">
+            <div class="card-body p-4 d-flex align-items-center gap-4">
+              <div class="bg-success bg-opacity-25 rounded-3 p-3">
+                <i class="fa-solid fa-coins text-success fa-2x"></i>
+              </div>
+              <div>
+                <p class="text-muted small text-uppercase fw-semibold mb-1">Dons en argent disponibles</p>
+                <h3 class="fw-bold text-success mb-0"
+                    id="available_money"
+                    data-available="<?= (int)$available_money ?>">
+                  <?= number_format($available_money, 0, '.', ' ') ?> Ar
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- TABLEAU DES BESOINS -->
@@ -224,3 +248,41 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?= BASE_URL ?>/assets/js/form_achat.js"></script>
+<script>
+  // Observer les changements du #simulation_result pour afficher le résultat proprement
+  const resultEl   = document.getElementById('simulation_result');
+  const wrapEl     = document.getElementById('simulation_result_wrap');
+  const alertEl    = document.getElementById('simulation_result_alert');
+  const iconEl     = document.getElementById('simulation_icon');
+
+  const observer = new MutationObserver(() => {
+    const text = resultEl.textContent.trim();
+    if (!text) {
+      wrapEl.style.display = 'none';
+      return;
+    }
+
+    wrapEl.style.display = 'block';
+    wrapEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Détecte le type de message
+    const isError   = /insuffisant|erreur|impossible|échec/i.test(text);
+    const isSuccess = /suffisant|ok|succès|validé|possible/i.test(text);
+
+    alertEl.className = 'alert rounded-4 p-4 d-flex align-items-center gap-3 shadow-sm ';
+    if (isError) {
+      alertEl.className += 'alert-danger';
+      iconEl.className   = 'fa-solid fa-circle-xmark fa-2x text-danger';
+    } else if (isSuccess) {
+      alertEl.className += 'alert-success';
+      iconEl.className   = 'fa-solid fa-circle-check fa-2x text-success';
+    } else {
+      alertEl.className += 'alert-info';
+      iconEl.className   = 'fa-solid fa-circle-info fa-2x text-info';
+    }
+  });
+
+  observer.observe(resultEl, { childList: true, characterData: true, subtree: true });
+</script>
+</body>
+</html>

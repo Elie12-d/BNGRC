@@ -58,4 +58,11 @@ class DispatchModel
         $result = $st->fetch(PDO::FETCH_ASSOC);
         return $result['total'] ?? 0;
     }
+    public function reset()
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM BNGRC_dispatch");
+        $stmt->execute();
+        $stmt = $this->pdo->prepare("ALTER TABLE BNGRC_dispatch AUTO_INCREMENT = 1");
+        $stmt->execute();
+    }
 }

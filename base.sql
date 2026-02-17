@@ -56,6 +56,7 @@ CREATE TABLE BNGRC_dons (
     id_category INT,
     date_don DATE,
     FOREIGN KEY (id_category) REFERENCES BNGRC_category(id)
+    
 );
 
 -- Table des dispatchs
