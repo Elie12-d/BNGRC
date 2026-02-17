@@ -97,85 +97,50 @@
         <form action="/don/save" method="POST">
           <div class="row g-4">
 
-            <!-- ✅ Type de don - DÉPLACÉ À L'INTÉRIEUR DE LA GRILLE -->
-            <div class="col-12">
-              <label class="form-label text-muted fw-semibold small text-uppercase">
-                <i class="fa-solid fa-box me-1"></i> Type de don <span class="text-danger">*</span>
-              </label>
-              <select name="nature" id="nature_select" class="form-select form-select-lg border-0 border-bottom rounded-0"
-                      style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;" required>
-                <option value="">— Sélectionner la nature —</option>
-                <option value="en_nature">En nature</option>
-                <option value="en_materiaux">En matériaux</option>
-                <option value="en_argent">En argent</option>
-              </select>
-            </div>
+            <!-- Type de don -->
+             <!-- Nature du don -->
+<div class="col-12">
+  <label class="form-label text-muted fw-semibold small text-uppercase">
+    <i class="fa-solid fa-box me-1"></i> Nature du don <span class="text-danger">*</span>
+  </label>
 
-            <!-- ✅ Champ dépendant de la nature - DÉPLACÉS À L'INTÉRIEUR -->
-            <div class="col-12" id="field_en_nature" style="display:none;">
-              <label class="form-label text-muted fw-semibold small text-uppercase">
-                <i class="fa-solid fa-seedling me-1"></i> Produit (nature)
-                <span class="text-danger">*</span>
-              </label>
-              <?php if (!empty($products)): ?>
-                <select name="nom" id="nom_en_nature" class="form-select form-select-lg border-0 border-bottom rounded-0"
-                        style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;">
-                  <option value="">— Sélectionner un produit (ex: Riz, Huile) —</option>
-                  <?php foreach ($products as $p):
-                    $lower = mb_strtolower($p, 'UTF-8');
-                    $is_nature = preg_match('/riz|huile|sucre|lait|mais|farine|biscuit|savon|eau|moustiquaire|vêtements|pull|couverture|medicament|médicament/', $lower);
-                    if ($is_nature): ?>
-                      <option value="<?= htmlspecialchars($p) ?>"><?= htmlspecialchars($p) ?></option>
-                  <?php endif; endforeach; ?>
-                </select>
-              <?php else: ?>
-                <input type="text" name="nom" id="nom_en_nature" 
-                       class="form-control form-control-lg border-0 border-bottom rounded-0"
-                       style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;"
-                       placeholder="Ex: Riz, Huile" />
-              <?php endif; ?>
-            </div>
+  <select name="nature" id="nature_select"
+          class="form-select form-select-lg border-0 border-bottom rounded-0"
+          style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;"
+          required>
+    <option value="">— Sélectionner la nature —</option>
+    <option value="en_nature">En nature</option>
+    <option value="en_materiaux">En matériaux</option>
+    <option value="en_argent">En argent</option>
+  </select>
+</div>
 
-            <div class="col-12" id="field_en_materiaux" style="display:none;">
-              <label class="form-label text-muted fw-semibold small text-uppercase">
-                <i class="fa-solid fa-hammer me-1"></i> Matériel / Matériaux
-                <span class="text-danger">*</span>
-              </label>
-              <?php if (!empty($products)): ?>
-                <select name="nom" id="nom_en_materiaux" class="form-select form-select-lg border-0 border-bottom rounded-0"
-                        style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;">
-                  <option value="">— Sélectionner un matériel (ex: Tôle, Clou) —</option>
-                  <?php foreach ($products as $p):
-                    $lower = mb_strtolower($p, 'UTF-8');
-                    $is_mat = preg_match('/t[oô]le|clou|b[aâ]che|ciment|clou|tôle|clou|tube|plaque/', $lower);
-                    if ($is_mat): ?>
-                      <option value="<?= htmlspecialchars($p) ?>"><?= htmlspecialchars($p) ?></option>
-                  <?php endif; endforeach; ?>
-                </select>
-              <?php else: ?>
-                <input type="text" name="nom" id="nom_en_materiaux" 
-                       class="form-control form-control-lg border-0 border-bottom rounded-0"
-                       style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;"
-                       placeholder="Ex: Tôle, Clou" />
-              <?php endif; ?>
-            </div>
+<!-- Produit (saisie libre uniquement) -->
+<div class="col-12" id="field_produit" style="display:none;">
+  <label class="form-label text-muted fw-semibold small text-uppercase">
+    <i class="fa-solid fa-tag me-1"></i> Produit du don <span class="text-danger">*</span>
+  </label>
 
-            <div class="col-12" id="field_en_argent" style="display:none;">
-              <label class="form-label text-muted fw-semibold small text-uppercase">
-                <i class="fa-solid fa-money-bill-wave me-1"></i> Montant (Ar)
-                <span class="text-danger">*</span>
-              </label>
-              <input type="number" step="0.01" name="prix_unitaire" id="montant_argent" 
-                     class="form-control form-control-lg border-0 border-bottom rounded-0"
-                     style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;"
-                     placeholder="Ex: 150000" />
-              <small class="form-text text-muted">
-                <i class="fa-solid fa-circle-info me-1"></i>
-                Pour un don en argent, indiquez le montant total (Ar). La quantité sera 1.
-              </small>
-              <!-- hidden field to ensure nom is set to 'Argent' on submit -->
-              <input type="hidden" name="nom" id="nom_argent" value="Argent" />
-            </div>
+  <input type="text" id="nom_input"
+         class="form-control form-control-lg border-0 border-bottom rounded-0"
+         style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;"
+         placeholder="Ex: Riz, Eau, Tôle, etc."/>
+
+  <input type="hidden" name="nom" id="nom_final">
+
+  <div class="form-text text-muted mt-2">
+    Le nom doit correspondre exactement au besoin pour permettre le dispatch automatique.
+  </div>
+</div>
+
+<!-- Message si argent -->
+<div class="col-12" id="field_argent" style="display:none;">
+  <div class="alert alert-info">
+    <i class="fa-solid fa-circle-info me-2"></i>
+    <strong>Don en argent :</strong> le produit sera automatiquement défini à <strong>"Argent"</strong>.
+  </div>
+</div>
+
 
             <!-- Date de réception -->
             <div class="col-md-6">
@@ -191,12 +156,13 @@
             <!-- Quantité / Montant -->
             <div class="col-md-6">
               <label class="form-label text-muted fw-semibold small text-uppercase">
-                <i class="fa-solid fa-scale-balanced me-1"></i> Quantité <span class="text-danger">*</span>
+                <i class="fa-solid fa-scale-balanced me-1"></i> Quantité / Montant <span class="text-danger">*</span>
               </label>
-              <input type="number" name="quantite"
-                     class="form-control form-control-lg border-0 border-bottom rounded-0"
-                     style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;"
-                     min="1" required placeholder="Ex: 200"/>
+                    <input type="number" name="quantite" id="quantite_input"
+       class="form-control form-control-lg border-0 border-bottom rounded-0"
+       style="border-bottom: 2px solid #dee2e6 !important; background-color: #f8f9fa;"
+       min="1" required placeholder="Ex: 200"/>
+
             </div>
 
           </div><!-- /row -->
@@ -225,60 +191,8 @@
 
 </div><!-- /main -->
 
-<script>
-  (function(){
-    const nature = document.getElementById('nature_select');
-    if (!nature) return;
-
-    const fieldNature = document.getElementById('field_en_nature');
-    const fieldMat = document.getElementById('field_en_materiaux');
-    const fieldArg = document.getElementById('field_en_argent');
-
-    const nomNature = document.getElementById('nom_en_nature');
-    const nomMat = document.getElementById('nom_en_materiaux');
-    const montantArg = document.getElementById('montant_argent');
-    const nomArgentHidden = document.getElementById('nom_argent');
-    const quantiteInput = document.querySelector('input[name="quantite"]');
-
-    function resetFields(){
-      // hide all
-      [fieldNature, fieldMat, fieldArg].forEach(f => { if (f) f.style.display = 'none'; });
-      // remove required attrs
-      if (nomNature) nomNature.required = false;
-      if (nomMat) nomMat.required = false;
-      if (montantArg) montantArg.required = false;
-      // restore nom hidden value to empty except argent
-      if (nomArgentHidden) nomArgentHidden.disabled = true;
-    }
-
-    function onChange(){
-      resetFields();
-      const v = nature.value;
-      if (v === 'en_nature'){
-        if (fieldNature) fieldNature.style.display = '';
-        if (nomNature) nomNature.required = true;
-        if (quantiteInput) quantiteInput.disabled = false;
-      } else if (v === 'en_materiaux'){
-        if (fieldMat) fieldMat.style.display = '';
-        if (nomMat) nomMat.required = true;
-        if (quantiteInput) quantiteInput.disabled = false;
-      } else if (v === 'en_argent'){
-        if (fieldArg) fieldArg.style.display = '';
-        if (montantArg) montantArg.required = true;
-        if (nomArgentHidden) { nomArgentHidden.disabled = false; }
-        // for argent, set quantity to 1 unless user wants otherwise
-        if (quantiteInput){ quantiteInput.value = 1; quantiteInput.readOnly = false; }
-      } else {
-        if (quantiteInput){ quantiteInput.readOnly = false; }
-      }
-    }
-
-    nature.addEventListener('change', onChange);
-    // initialize on load
-    onChange();
-  })();
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?= BASE_URL ?>/assets/js/app.js"></script>
+<script src="<?= BASE_URL ?>/assets/js/form_don.js"></script>
 </body>
 </html>
