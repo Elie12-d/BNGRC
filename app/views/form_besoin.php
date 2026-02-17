@@ -244,7 +244,7 @@
         if (nomMat) nomMat.required = true;
         if (quantiteInput) quantiteInput.disabled = false;
       } else if (v === 'en_argent'){
-        if (fieldArg) fieldArg.style.display = '';
+        // if (fieldArg) fieldArg.style.display = '';
         if (montantArg) montantArg.required = true;
         if (nomArgentHidden) { nomArgentHidden.disabled = false; }
         // for argent, set quantity to 1 unless user wants otherwise
