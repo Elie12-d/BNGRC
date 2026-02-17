@@ -52,11 +52,23 @@ class DonsModel
             UPDATE BNGRC_dons SET nom = ?, quantite = ? WHERE id = ?
         ");
 
+        // Accept float quantities (for money amounts) and preserve decimals
         return $st->execute([
             (string)$nom,
-            (int)$quantite,
+            (float)$quantite,
             (int)$id
         ]);
+    }
+
+    /**
+     * Return total amount (quantite) for donations named 'Argent'
+     */
+    public function getTotalMoney()
+    {
+        $st = $this->pdo->prepare("SELECT SUM(quantite) as total FROM BNGRC_dons WHERE LOWER(TRIM(nom)) = 'argent'");
+        $st->execute();
+        $row = $st->fetch(PDO::FETCH_ASSOC);
+        return isset($row['total']) ? (float)$row['total'] : 0.0;
     }
 
     public function delete($id)

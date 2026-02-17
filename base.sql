@@ -38,6 +38,7 @@ CREATE TABLE BNGRC_besoins (
     date_saisie DATETIME DEFAULT CURRENT_TIMESTAMP, -- ✅ Type ajouté
     prix_unitaire DOUBLE,
     id_ville INT,
+    date_saisie DATETIME DEFAULT CURRENT_TIMESTAMP, -- CORRIGÉ : Ajout du type DATETIME
     date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_ville) REFERENCES BNGRC_villes(id)
 );

@@ -80,9 +80,29 @@ class BesoinsModel
     }
     public function getAllOrderByDate()
     {
-        $st = $this->pdo->query("
-            SELECT * FROM BNGRC_besoins ORDER BY date_creation ASC
-        ");
+        // Determine which date column exists in the current database/schema.
+        // Some environments use `date_creation`, others `date_saisie`.
+        try {
+            $colSt = $this->pdo->prepare(
+                "SELECT COLUMN_NAME FROM information_schema.COLUMNS
+                 WHERE TABLE_SCHEMA = DATABASE()
+                   AND TABLE_NAME = 'BNGRC_besoins'
+                   AND COLUMN_NAME IN ('date_creation','date_saisie')
+                 ORDER BY FIELD(COLUMN_NAME,'date_creation','date_saisie')
+                 LIMIT 1"
+            );
+            $colSt->execute();
+            $dateCol = $colSt->fetchColumn();
+        } catch (\Exception $e) {
+            // If something goes wrong querying information_schema, fall back
+            // to not using an ORDER BY so the query doesn't fail.
+            $dateCol = false;
+        }
+
+        $order = $dateCol ? "ORDER BY `" . $dateCol . "` ASC" : "";
+
+        $sql = "SELECT * FROM BNGRC_besoins " . $order;
+        $st = $this->pdo->query($sql);
 
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }

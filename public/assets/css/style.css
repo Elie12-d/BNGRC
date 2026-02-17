@@ -111,6 +111,36 @@ body {
 .table-wrap tbody tr:last-child td, .detail-table-wrap tbody tr:last-child td { border-bottom:none; }
 .table-wrap tbody tr:hover td, .detail-table-wrap tbody tr:not(.city-row):hover td { background:rgba(59,130,246,.04); }
 
+/* Responsive tables for forms (e.g. form_achat) */
+.table-responsive {
+  background: transparent; /* parent card provides background */
+  border-radius: 12px;
+  overflow: auto;
+  max-height: 420px; /* prevents the table from growing the page too much */
+  padding: 8px; /* breathing room for the scroll area */
+  -webkit-overflow-scrolling: touch;
+}
+.table-responsive table { width: 100%; border-collapse: collapse; min-width: 720px; }
+.table-responsive thead th {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(90deg, rgba(24,27,37,.96), rgba(30,34,51,.96));
+  z-index: 5;
+  backdrop-filter: blur(4px);
+}
+.table-responsive tbody td { white-space: nowrap; vertical-align: middle; }
+.table-responsive td.montant-cell { text-align: right; font-variant-numeric: tabular-nums; }
+.table-responsive input[type="checkbox"] { transform: scale(1.05); }
+
+/* Smaller screens: allow table to be fully scrollable horizontally */
+@media (max-width: 900px) {
+  .table-responsive { max-height: 320px; }
+  .table-responsive table { min-width: 900px; }
+}
+
+/* Ensure form cards which contain tables expand nicely */
+.form-card--wide { max-width: 1300px; padding: 36px; }
+
 /* City row */
 .city-row td { background:rgba(59,130,246,.07) !important; font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:var(--accent); border-top:2px solid rgba(59,130,246,.2); padding:10px 16px !important; }
 .city-row td i { margin-right:8px; font-size:13px; }
