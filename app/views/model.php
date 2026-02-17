@@ -123,7 +123,8 @@
         'form_don' => 'form_don.php',
         'recapitulatif' => 'recapitulation.php',
         'disp' => 'dispatch.php',
-        'historique' => 'historique.php'
+        'historique' => 'historique.php',
+        'form_achat' => 'form_achat.php'
     ];
     
     if (isset($allowed_pages[$page])) {

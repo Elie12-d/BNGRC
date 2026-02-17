@@ -43,12 +43,19 @@ CREATE TABLE BNGRC_besoins (
     FOREIGN KEY (id_ville) REFERENCES BNGRC_villes(id)
 );
 
+CREATE TABLE BNGRC_category (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL
+);
+
 -- Table des dons
 CREATE TABLE BNGRC_dons (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     quantite INT NOT NULL,
-    date_don DATE
+    id_category INT,
+    date_don DATE,
+    FOREIGN KEY (id_category) REFERENCES BNGRC_category(id)
 );
 
 -- Table des dispatchs

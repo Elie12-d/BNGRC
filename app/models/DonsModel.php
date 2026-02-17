@@ -65,10 +65,10 @@ class DonsModel
      */
     public function getTotalMoney()
     {
-        $st = $this->pdo->prepare("SELECT SUM(quantite) as total FROM BNGRC_dons WHERE LOWER(TRIM(nom)) = 'argent'");
+        $st = $this->pdo->prepare("SELECT SUM(quantite) as total FROM BNGRC_dons WHERE nom = 'Argent'");
         $st->execute();
         $row = $st->fetch(PDO::FETCH_ASSOC);
-        return isset($row['total']) ? (float)$row['total'] : 0.0;
+        return $row['total'] ?? 0;
     }
 
     public function delete($id)

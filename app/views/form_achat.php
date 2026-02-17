@@ -1,21 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simuler / Valider Achat — BNGRC</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css"/>
-</head>
-<body>
-
-<?php
-if (!isset($villes)) $villes = [];
-if (!isset($besoins)) $besoins = [];
-if (!isset($available_money)) $available_money = 0;
-?>
-
 <div class="main">
   <div class="content">
     <div class="form-card form-card--wide" style="margin:24px auto;">
@@ -49,7 +31,7 @@ if (!isset($available_money)) $available_money = 0;
 
       <div style="margin-left:auto;">
         <label><strong>Dons en argent disponibles</strong></label>
-        <div id="available_money" data-available="<?= (int)$available_money ?>" style="font-size:1.1rem; font-weight:600;"><?= number_format($available_money, 0, '.', ' ') ?> Ar</div>
+        <div id="available_money" data-available="<?= $available_money ?>" style="font-size:1.1rem; font-weight:600;"><?= number_format($available_money, 0, '.', ' ') ?> Ar</div>
      
       </div>
     </div>
@@ -121,6 +103,3 @@ if (!isset($available_money)) $available_money = 0;
   window.AVAILABLE_MONEY = Number(<?= json_encode((int)$available_money) ?>) || 0;
 </script>
 <script src="<?= BASE_URL ?>/assets/js/form_achat.js"></script>
-
-</body>
-</html>

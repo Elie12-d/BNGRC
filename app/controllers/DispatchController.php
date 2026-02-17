@@ -61,11 +61,12 @@ class DispatchController
         if (isset($_SESSION['flash_success'])) { $flash['success'] = $_SESSION['flash_success']; unset($_SESSION['flash_success']); }
         if (isset($_SESSION['flash_error']))   { $flash['error'] = $_SESSION['flash_error']; unset($_SESSION['flash_error']); }
 
-        $this->app->render('form_achat', [
+        $this->app->render('model', [
             'villes' => $villes,
             'besoins' => $besoins,
             'available_money' => $available_money,
             'flash' => $flash,
+            'page' => 'form_achat'
         ]);
     }
 

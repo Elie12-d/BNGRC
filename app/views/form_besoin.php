@@ -248,7 +248,7 @@
         if (montantArg) montantArg.required = true;
         if (nomArgentHidden) { nomArgentHidden.disabled = false; }
         // for argent, set quantity to 1 unless user wants otherwise
-        if (quantiteInput){ quantiteInput.value = 1; quantiteInput.readOnly = true; }
+        if (quantiteInput){ quantiteInput.value = 1; }
       } else {
         if (quantiteInput){ quantiteInput.readOnly = false; }
       }
