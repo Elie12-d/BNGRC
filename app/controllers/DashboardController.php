@@ -37,7 +37,7 @@ class DashboardController
 			foreach ($dispatchs as $dispatch) {
 				if (
 					$dispatch['id_besoin'] == $besoin['id'] &&
-					in_array($dispatch['status'], ['complete', 'partiel', 'en_cours'])
+					in_array($dispatch['status'], ['complete', 'partiel'])
 				) {
 					$besoin['attribue'] += $dispatch['quantite_attribuee'];
 				}

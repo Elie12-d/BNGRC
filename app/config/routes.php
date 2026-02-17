@@ -23,7 +23,12 @@ $router->get('/home', [ DashboardController::class, 'dashboard' ]);
 $router->get('/dashboard', [ DashboardController::class, 'dashboard' ]);
 
 // Other routes
-$router->get('/disp', [ AutoDispatchController::class, 'autoDispatch' ]);
+// $router->get('/disp', [ AutoDispatchController::class, 'autoDispatchByOrderDemande' ]);
+$router->group('/dispatch', function(Router $router) {
+	$router->get('/auto-by-demande', [ AutoDispatchController::class, 'autoDispatchByOrderDemande' ]);
+	$router->get('/auto-by-quantity', [ AutoDispatchController::class, 'autoDispatchByOrderMinQuantity' ]);
+	
+});
 $router->get('/reset', [ ResetController::class, 'reset' ]);
 // Show the dispatch (purchase) form at /dispatch
 $router->get('/dispatch', [ DispatchController::class, 'showForm' ]);

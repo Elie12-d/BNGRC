@@ -115,10 +115,20 @@ class BesoinsModel
         $result = $st->fetch(PDO::FETCH_ASSOC);
         return $result['total'] ?? 0;
     }
-    public function reset() {
+    public function reset()
+    {
         $st = $this->pdo->prepare("DELETE FROM BNGRC_besoins");
         $st->execute();
         $st = $this->pdo->prepare("ALTER TABLE BNGRC_besoins AUTO_INCREMENT = 1");
         $st->execute();
+    }
+    public function getAllOrderByMinQuantity()
+    {
+        $st = $this->pdo->query("
+            SELECT * FROM BNGRC_besoins 
+            ORDER BY quantite ASC
+        ");
+
+        return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 }
