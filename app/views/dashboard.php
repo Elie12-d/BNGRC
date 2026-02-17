@@ -22,13 +22,11 @@
 
   <div class="sidebar-section">Navigation</div>
   <a href="<?= BASE_URL ?>/dashboard" class="nav-item active"><i class="fa-solid fa-gauge-high"></i> Tableau de Bord</a>
-  <a href="<?= BASE_URL ?>/villes"    class="nav-item"><i class="fa-solid fa-city"></i> Villes & Régions</a>
-  <a href="<?= BASE_URL ?>/besoins"   class="nav-item"><i class="fa-solid fa-list-check"></i> Besoins</a>
-  <a href="<?= BASE_URL ?>/dons"      class="nav-item"><i class="fa-solid fa-hand-holding-heart"></i> Dons</a>
+  <a href="<?= BASE_URL ?>/besoins"   class="nav-item"><i class="fa-solid fa-list-check"></i>Saisie Besoins</a>
+  <a href="<?= BASE_URL ?>/dons"      class="nav-item"><i class="fa-solid fa-hand-holding-heart"></i>Saisie Dons</a>
   <a href="<?= BASE_URL ?>/dispatch"  class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Formulaire d'achat</a>
 
   <div class="sidebar-section">Administration</div>
-  <a href="/produits"  class="nav-item"><i class="fa-solid fa-tags"></i> Catalogue Produits</a>
 
   <div class="sidebar-footer">BNGRC Madagascar &copy; <?= date('Y') ?></div>
 </aside>

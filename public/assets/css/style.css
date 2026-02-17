@@ -861,3 +861,43 @@ a {
 a:hover {
   color: var(--orchid);
 }
+
+/* ═══════════════════════════════════════
+   AGRANDISSEMENT PAGE ACHAT / DISPATCH
+═══════════════════════════════════════ */
+
+/* Agrandit la zone principale */
+.main {
+  padding: 30px 40px;
+}
+
+/* Conteneur central élargi */
+.content {
+  max-width: 1500px; /* avant probablement 1200px */
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Carte principale élargie */
+.form-card--wide {
+  max-width: 1400px;   /* largeur plus confortable */
+  width: 100%;
+  padding: 32px 36px;
+  border-radius: 18px;
+}
+
+/* Table respire mieux */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Ajustement pour grands écrans */
+@media (min-width: 1600px) {
+  .content {
+    max-width: 1700px;
+  }
+
+  .form-card--wide {
+    max-width: 1600px;
+  }
+}
