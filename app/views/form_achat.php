@@ -6,9 +6,31 @@
   <title>Simuler / Valider Achat — BNGRC</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css"/>
 </head>
 <body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🛡️</div>
+    <div>
+      <div class="logo-text">BNGRC</div>
+      <div class="logo-sub">Suivi des Dons</div>
+    </div>
+  </div>
+  <div class="sidebar-section">Navigation</div>
+  <a href="/dashboard" class="nav-item"><i class="fa-solid fa-gauge-high"></i> Tableau de Bord</a>
+  <a href="/villes"    class="nav-item"><i class="fa-solid fa-city"></i> Villes & Régions</a>
+  <a href="/besoins"   class="nav-item"><i class="fa-solid fa-list-check"></i> Besoins</a>
+  <a href="/dons"      class="nav-item"><i class="fa-solid fa-hand-holding-heart"></i> Dons</a>
+  <a href="/dispatch"  class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Simulation Dispatch</a>
+  <a href="/achats"    class="nav-item active"><i class="fa-solid fa-shopping-cart"></i> Achats</a>
+  <div class="sidebar-section">Administration</div>
+  <a href="/produits"  class="nav-item"><i class="fa-solid fa-tags"></i> Catalogue Produits</a>
+  <div class="sidebar-footer">BNGRC Madagascar &copy; <?= date('Y') ?></div>
+</aside>
 
 <?php
 if (!isset($villes)) $villes = [];
@@ -16,111 +38,283 @@ if (!isset($besoins)) $besoins = [];
 if (!isset($available_money)) $available_money = 0;
 ?>
 
+<!-- MAIN -->
 <div class="main">
-  <div class="content">
-    <div class="form-card form-card--wide" style="margin:24px auto;">
-      <h1 style="margin-bottom:12px;">Formulaire d'achat / attribution</h1>
 
-      <?php
-      // display flash messages passed from controller in $flash (already read from session)
-      if (!empty($flash['success'])): ?>
-        <div style="padding:10px;margin-bottom:12px;background:#e6f9ec;border:1px solid #bde9c8;color:#064;">
-          <?= htmlspecialchars($flash['success']) ?>
+  <header class="topbar">
+    <div class="topbar-title">Simulation <span>Achat</span></div>
+    <div class="topbar-actions">
+      <a href="/achats" class="btn btn-outline"><i class="fa-solid fa-rotate"></i> Actualiser</a>
+      <a href="/dispatch" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Dispatch</a>
+      <div class="avatar">A</div>
+    </div>
+  </header>
+
+  <div class="content" style="max-width: 1400px;">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+      <i class="fa-solid fa-house"></i>
+      <span class="sep">/</span>
+      <a href="/achats">Achats</a>
+      <span class="sep">/</span>
+      <span class="current">Simuler / Valider</span>
+    </div>
+
+    <!-- FLASH MESSAGES -->
+    <?php if (!empty($flash['success'])): ?>
+      <div class="alert alert-success alert-dismissible fade show rounded-3 mb-4" role="alert">
+        <i class="fa-solid fa-circle-check me-2"></i>
+        <?= htmlspecialchars($flash['success']) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    <?php endif; ?>
+    <?php if (!empty($flash['error'])): ?>
+      <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-4" role="alert">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        <?= htmlspecialchars($flash['error']) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    <?php endif; ?>
+
+    <form id="achat_form" method="POST" action="/achat/validate">
+
+      <!-- LIGNE SUPÉRIEURE : Ville + Dons disponibles -->
+      <div class="row g-4 mb-4">
+
+        <!-- Ville -->
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <label class="form-label fw-semibold text-secondary text-uppercase small">
+                <i class="fa-solid fa-city me-1 text-primary"></i> Ville acheteuse
+              </label>
+              <select name="id_ville" id="ville_select" class="form-select form-select-lg rounded-3" required>
+                <option value="">— Choisir une ville —</option>
+                <?php foreach ($villes as $v): ?>
+                  <option value="<?= $v['id'] ?>"><?= htmlspecialchars($v['nom']) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
         </div>
-      <?php endif;
-      if (!empty($flash['error'])): ?>
-        <div style="padding:10px;margin-bottom:12px;background:#fdecea;border:1px solid #f5c2c2;color:#900;">
-          <?= htmlspecialchars($flash['error']) ?>
+
+        <!-- Dons disponibles -->
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100 bg-success bg-opacity-10">
+            <div class="card-body p-4 d-flex align-items-center gap-4">
+              <div class="bg-success bg-opacity-25 rounded-3 p-3">
+                <i class="fa-solid fa-coins text-success fa-2x"></i>
+              </div>
+              <div>
+                <p class="text-muted small text-uppercase fw-semibold mb-1">Dons en argent disponibles</p>
+                <h3 class="fw-bold text-success mb-0"
+                    id="available_money"
+                    data-available="<?= (int)$available_money ?>">
+                  <?= number_format($available_money, 0, '.', ' ') ?> Ar
+                </h3>
+              </div>
+            </div>
+          </div>
         </div>
-      <?php endif; ?>
-      <!-- Debug panel removed (server-side logging only) -->
 
-      <form id="achat_form" method="POST" action="/achat/validate">
-    <div style="display:flex;gap:24px;align-items:center;margin-bottom:16px;">
-      <div>
-        <label><strong>Ville acheteuse</strong></label>
-        <select name="id_ville" id="ville_select" class="form-select" required>
-          <option value="">— Choisir une ville —</option>
-          <?php foreach ($villes as $v): ?>
-            <option value="<?= $v['id'] ?>"><?= htmlspecialchars($v['nom']) ?></option>
-          <?php endforeach; ?>
-        </select>
       </div>
 
-      <div style="margin-left:auto;">
-        <label><strong>Dons en argent disponibles</strong></label>
-        <div id="available_money" data-available="<?= (int)$available_money ?>" style="font-size:1.1rem; font-weight:600;"><?= number_format($available_money, 0, '.', ' ') ?> Ar</div>
-     
+      <!-- TABLEAU DES BESOINS -->
+      <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+          <h5 class="fw-bold mb-1" style="font-family:'Syne',sans-serif;">
+            <i class="fa-solid fa-list-check text-primary me-2"></i>Besoins disponibles
+          </h5>
+          <p class="text-muted small mb-3">Cochez les lignes à acheter / attribuer pour la ville sélectionnée.</p>
+        </div>
+        <div class="card-body p-4 pt-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width:50px;" class="text-center"></th>
+                  <th><i class="fa-solid fa-box text-muted me-1"></i>Produit</th>
+                  <th><i class="fa-solid fa-scale-balanced text-muted me-1"></i>Quantité</th>
+                  <th><i class="fa-solid fa-coins text-muted me-1"></i>Prix Unitaire (Ar)</th>
+                  <th><i class="fa-solid fa-calculator text-muted me-1"></i>Montant (Ar)</th>
+                </tr>
+              </thead>
+              <tbody id="besoins_tbody">
+                <?php if (empty($besoins)): ?>
+                  <tr>
+                    <td colspan="5" class="text-center py-5">
+                      <div class="text-muted">
+                        <i class="fa-solid fa-inbox fa-3x mb-3 d-block"></i>
+                        <p class="mb-0">Aucun besoin disponible.</p>
+                      </div>
+                    </td>
+                  </tr>
+                <?php else: ?>
+                  <?php foreach ($besoins as $b):
+                    $montant = ((float)($b['prix_unitaire'] ?? 0)) * ((float)($b['quantite'] ?? 0));
+                    $villeId = isset($b['id_ville']) ? $b['id_ville'] : '';
+                  ?>
+                    <tr data-ville="<?= $villeId ?>">
+                      <td class="text-center">
+                        <input type="checkbox"
+                               name="besoin_ids[]"
+                               class="form-check-input cb-besoin"
+                               value="<?= $b['id'] ?>"
+                               data-montant="<?= $montant ?>"
+                               data-id="<?= $b['id'] ?>"
+                               data-ville="<?= $villeId ?>"
+                               style="width:1.2em;height:1.2em;cursor:pointer;"/>
+                      </td>
+                      <td><strong><?= htmlspecialchars($b['nom']) ?></strong></td>
+                      <td><?= htmlspecialchars($b['quantite']) ?></td>
+                      <td><?= number_format((float)($b['prix_unitaire'] ?? 0), 0, '.', ' ') ?></td>
+                      <td class="montant-cell text-success fw-semibold">
+                        <?= number_format($montant, 0, '.', ' ') ?>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                <?php endif; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <h2>Besoins disponibles</h2>
-    <p>Choisissez les lignes à acheter / attribuer pour la ville sélectionnée.</p>
+      <!-- LIGNE INFÉRIEURE : Frais + Totaux + Boutons -->
+      <div class="row g-4">
 
-    <div class="table-responsive" style="margin:16px 0 20px; padding:8px; background:transparent;">
-      <table class="table" style="width:100%;border-collapse:collapse;margin-bottom:12px;">
-      <thead>
-        <tr>
-          <th style="width:40px"></th>
-          <th>Produit</th>
-          <th>Quantité</th>
-          <th>Prix Unitaire (Ar)</th>
-          <th>Montant (Ar)</th>
-        </tr>
-      </thead>
-      <tbody id="besoins_tbody">
-        <?php if (empty($besoins)): ?>
-          <tr><td colspan="5">Aucun besoin disponible.</td></tr>
-        <?php else: ?>
-          <?php foreach ($besoins as $b):
-            $montant = ((float)($b['prix_unitaire'] ?? 0)) * ((float)($b['quantite'] ?? 0));
-            $villeId = isset($b['id_ville']) ? $b['id_ville'] : '';
-          ?>
-            <tr data-ville="<?= $villeId ?>">
-              <td style="text-align:center;">
-                <input type="checkbox" name="besoin_ids[]" class="cb-besoin" value="<?= $b['id'] ?>" data-montant="<?= $montant ?>" data-id="<?= $b['id'] ?>" data-ville="<?= $villeId ?>" />
-              </td>
-              <td><?= htmlspecialchars($b['nom']) ?></td>
-              <td><?= htmlspecialchars($b['quantite']) ?></td>
-              <td><?= number_format((float)($b['prix_unitaire'] ?? 0), 0, '.', ' ') ?></td>
-              <td class="montant-cell"><?= number_format($montant, 0, '.', ' ') ?></td>
-            </tr>
-          <?php endforeach; ?>
-        <?php endif; ?>
-      </tbody>
-      </table>
-    </div>
+        <!-- Taux de frais -->
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <label class="form-label fw-semibold text-secondary text-uppercase small">
+                <i class="fa-solid fa-percent me-1 text-warning"></i> Taux de frais
+              </label>
+              <div class="input-group input-group-lg">
+                <input type="number"
+                       id="fee_percent"
+                       name="fee_percent"
+                       class="form-control form-control-lg rounded-start-3 border-2"
+                       value="10" min="0" max="100" step="0.1"/>
+                <span class="input-group-text bg-warning text-dark fw-bold border-2 rounded-end-3">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <div style="display:flex;gap:16px;align-items:center;margin-bottom:16px;">
-      <div>
-        <label><strong>Taux de frais (%)</strong></label>
-        <input type="number" id="fee_percent" name="fee_percent" class="form-input" value="10" min="0" max="100" step="0.1" />
+        <!-- Récapitulatif des montants -->
+        <div class="col-md-5">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h6 class="fw-bold text-secondary text-uppercase small mb-3">
+                <i class="fa-solid fa-receipt me-1"></i> Récapitulatif
+              </h6>
+              <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted">Total sélectionné</span>
+                <strong><span id="total_selected">0</span> Ar</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted">Frais estimés</span>
+                <strong class="text-warning"><span id="fee_amount">0</span> Ar</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2">
+                <span class="fw-bold">Montant total à payer</span>
+                <strong class="text-primary fs-5"><span id="net_needed">0</span> Ar</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="col-md-3">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4 d-flex flex-column justify-content-between gap-3">
+              <button type="button" id="btn_simuler"
+                      class="btn btn-outline-primary btn-lg rounded-3 w-100">
+                <i class="fa-solid fa-calculator me-2"></i> Simuler
+              </button>
+              <button type="submit" id="btn_valider"
+                      class="btn btn-primary btn-lg rounded-3 w-100 shadow-sm">
+                <i class="fa-solid fa-check me-2"></i> Valider
+              </button>
+              <a href="/dispatch"
+                 class="btn btn-outline-secondary btn-lg rounded-3 w-100">
+                <i class="fa-solid fa-xmark me-2"></i> Annuler
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row boutons -->
+
+      <!-- Résultat simulation -->
+      <div id="simulation_result_wrap" class="mt-4" style="display:none;">
+        <div id="simulation_result_alert" class="alert rounded-4 p-4 d-flex align-items-center gap-3 shadow-sm">
+          <i id="simulation_icon" class="fa-solid fa-calculator fa-2x"></i>
+          <div>
+            <h6 class="fw-bold mb-1">Résultat de la simulation</h6>
+            <p id="simulation_result" class="mb-0 fw-semibold"></p>
+          </div>
+        </div>
       </div>
 
-      <div style="margin-left:auto; text-align:right;">
-        <div>Total sélectionné : <span id="total_selected">0</span> Ar</div>
-        <div>Frais estimés : <span id="fee_amount">0</span> Ar</div>
-        <div style="font-weight:700;">Montant à payer (total + frais) : <span id="net_needed">0</span> Ar</div>
-      </div>
-    </div>
+    </form>
 
-    <div id="simulation_result" style="margin-bottom:12px;font-weight:600;color:#333"></div>
+    <p class="text-muted small mt-3">
+      <i class="fa-solid fa-circle-info me-1"></i>
+      <strong>Simuler</strong> vérifie uniquement si les fonds sont suffisants.
+      <strong>Valider</strong> envoie le formulaire au serveur pour créer la transaction.
+    </p>
 
-    <div style="display:flex;gap:12px;">
-      <button type="button" id="btn_simuler" class="btn btn-outline"><i class="fa-solid fa-calculator"></i> Simuler</button>
-      <button type="submit" id="btn_valider" class="btn btn-primary"><i class="fa-solid fa-check"></i> Valider</button>
-      <a href="/dispatch" class="btn btn-outline">Annuler</a>
-    </div>
+  </div><!-- /content -->
 
-      </form>
-      <p style="margin-top:12px;font-size:0.9rem;color:#666">Remarque : "Simuler" vérifie seulement si les fonds sont suffisants et affiche un message; "Valider" enverra le formulaire au serveur pour création de la transaction (doit être implémentée côté serveur).</p>
-    </div>
-  </div>
-</div>
+  <footer class="footer">
+    BNGRC — Bureau National de Gestion des Risques et des Catastrophes &copy; <?= date('Y') ?>
+  </footer>
+
+</div><!-- /main -->
+
 <script>
   window.AVAILABLE_MONEY = Number(<?= json_encode((int)$available_money) ?>) || 0;
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?= BASE_URL ?>/assets/js/form_achat.js"></script>
+<script>
+  // Observer les changements du #simulation_result pour afficher le résultat proprement
+  const resultEl   = document.getElementById('simulation_result');
+  const wrapEl     = document.getElementById('simulation_result_wrap');
+  const alertEl    = document.getElementById('simulation_result_alert');
+  const iconEl     = document.getElementById('simulation_icon');
 
+  const observer = new MutationObserver(() => {
+    const text = resultEl.textContent.trim();
+    if (!text) {
+      wrapEl.style.display = 'none';
+      return;
+    }
+
+    wrapEl.style.display = 'block';
+    wrapEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Détecte le type de message
+    const isError   = /insuffisant|erreur|impossible|échec/i.test(text);
+    const isSuccess = /suffisant|ok|succès|validé|possible/i.test(text);
+
+    alertEl.className = 'alert rounded-4 p-4 d-flex align-items-center gap-3 shadow-sm ';
+    if (isError) {
+      alertEl.className += 'alert-danger';
+      iconEl.className   = 'fa-solid fa-circle-xmark fa-2x text-danger';
+    } else if (isSuccess) {
+      alertEl.className += 'alert-success';
+      iconEl.className   = 'fa-solid fa-circle-check fa-2x text-success';
+    } else {
+      alertEl.className += 'alert-info';
+      iconEl.className   = 'fa-solid fa-circle-info fa-2x text-info';
+    }
+  });
+
+  observer.observe(resultEl, { childList: true, characterData: true, subtree: true });
+</script>
 </body>
 </html>
