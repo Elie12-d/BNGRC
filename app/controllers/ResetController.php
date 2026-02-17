@@ -52,57 +52,81 @@ class ResetController
     }
     public function insertData()
     {
-        Flight::db()->exec("INSERT INTO BNGRC_users (username, password, type) VALUES
-            ('admin', MD5('admin123'), 'admin'),
-            ('rakoto', MD5('rakoto123'), 'user'),
-            ('rabe', MD5('rabe123'), 'user'),
-            ('coordinator', MD5('coord123'), 'admin')");
+        Flight::db()->exec("INSERT INTO BNGRC_regions (nom) VALUES 
+            ('Atsinanana'),      -- Pour Toamasina
+            ('Vatovavy'),         -- Pour Mananjary
+            ('Atsimo-Atsinanana'), -- Pour Farafangana
+            ('Diana'),            -- Pour Nosy Be
+            ('Menabe')");
+        Flight::db()->exec("INSERT INTO BNGRC_villes (nom, id_region) VALUES 
+            ('Toamasina', 1),
+            ('Mananjary', 2),
+            ('Farafangana', 3),
+            ('Nosy Be', 4),
+            ('Morondava', 5)");
+        Flight::db()->exec("INSERT INTO BNGRC_category (nom) VALUES 
+            ('nature'),
+            ('materiel'),
+            ('argent')");
+        Flight::db()->exec("INSERT INTO BNGRC_besoins (nom, quantite, date_saisie, prix_unitaire, id_ville, date_creation) VALUES 
+            -- Toamasina (id_ville = 1)
+            ('Riz (kg)', 800, '2026-02-16', 3000, 1, '2026-02-16'),
+            ('Eau (L)', 1500, '2026-02-15', 1000, 1, '2026-02-15'),
+            ('Tôle', 120, '2026-02-16', 25000, 1, '2026-02-16'),
+            ('Bâche', 200, '2026-02-15', 15000, 1, '2026-02-15'),
+            ('Argent', 12000000, '2026-02-16', 1, 1, '2026-02-16'),
+            ('groupe', 3, '2026-02-15', 6750000, 1, '2026-02-15'),
 
-        Flight::db()->exec("INSERT INTO BNGRC_regions (nom) VALUES
-            ('Analamanga'),
-            ('Atsinanana'),
-            ('Boeny')");
-        Flight::db()->exec("INSERT INTO BNGRC_villes (nom, id_region) VALUES
-            ('Antananarivo', 1),
-            ('Ambohidratrimo', 1),
-            ('Toamasina', 2),
-            ('Brickaville', 2),
-            ('Mahajanga', 3),
-            ('Marovoay', 3)");
-        Flight::db()->exec("INSERT INTO BNGRC_besoins (nom, quantite, prix_unitaire, id_ville, date_creation) VALUES
-            ('Riz', 500, 2500, 1, '2026-02-10 08:00:00'),
-            ('Huile', 100, 7800, 1, '2026-02-10 08:00:00'),
-            ('Tôle', 50, 42000, 1, '2026-02-10 08:00:00'),
+            -- Mananjary (id_ville = 2)
+            ('Riz (kg)', 500, '2026-02-15', 3000, 2, '2026-02-15'),
+            ('Huile (L)', 120, '2026-02-16', 6000, 2, '2026-02-16'),
+            ('Tôle', 80, '2026-02-15', 25000, 2, '2026-02-15'),
+            ('Clous (kg)', 60, '2026-02-16', 8000, 2, '2026-02-16'),
+            ('Argent', 6000000, '2026-02-15', 1, 2, '2026-02-15'),
 
-            ('Riz', 300, 2800, 3, '2026-02-11 09:00:00'),
-            ('Tôle', 80, 45000, 3, '2026-02-11 09:00:00'),
-            ('Bâche', 30, 38000, 3, '2026-02-11 09:00:00'),
+            -- Farafangana (id_ville = 3)
+            ('Riz (kg)', 600, '2026-02-16', 3000, 3, '2026-02-16'),
+            ('Eau (L)', 1000, '2026-02-15', 1000, 3, '2026-02-15'),
+            ('Bâche', 150, '2026-02-16', 15000, 3, '2026-02-16'),
+            ('Bois', 100, '2026-02-15', 10000, 3, '2026-02-15'),
+            ('Argent', 8000000, '2026-02-16', 1, 3, '2026-02-16'),
 
-            ('Riz', 400, 2500, 5, '2026-02-12 10:00:00'),
-            ('Farine', 200, 2800, 5, '2026-02-12 10:00:00'),
-            ('Huile', 80, 7500, 5, '2026-02-12 10:00:00'),
-            ('Sucre', 100, 4000, 5, '2026-02-12 10:00:00')");
-        Flight::db()->exec("INSERT INTO BNGRC_dons (nom, quantite, date_don) VALUES
-            ('Riz', 600, '2026-02-09'),
-            ('Huile', 150, '2026-02-09'),
-            ('Tôle', 100, '2026-02-09'),
+            -- Nosy Be (id_ville = 4)
+            ('Riz (kg)', 300, '2026-02-15', 3000, 4, '2026-02-15'),
+            ('Haricots', 200, '2026-02-16', 4000, 4, '2026-02-16'),
+            ('Tôle', 40, '2026-02-15', 25000, 4, '2026-02-15'),
+            ('Clous (kg)', 30, '2026-02-16', 8000, 4, '2026-02-16'),
+            ('Argent', 4000000, '2026-02-15', 1, 4, '2026-02-15'),
 
-            ('Riz', 400, '2026-02-10'),
-            ('Argent', 1000000, '2026-02-10'),
-            ('Bâche', 50, '2026-02-10'),
+            -- Morondava (id_ville = 5)
+            ('Riz (kg)', 700, '2026-02-16', 3000, 5, '2026-02-16'),
+            ('Eau (L)', 1200, '2026-02-15', 1000, 5, '2026-02-15'),
+            ('Bâche', 180, '2026-02-16', 15000, 5, '2026-02-16'),
+            ('Bois', 150, '2026-02-15', 10000, 5, '2026-02-15'),
+            ('Argent', 10000000, '2026-02-16', 1, 5, '2026-02-16')");
+        Flight::db()->exec("INSERT INTO BNGRC_dons (nom, quantite, id_category, date_don) VALUES 
+            -- Dons du 2026-02-16
+            ('Argent', 5000000, 3, '2026-02-16'),
+            ('Argent', 3000000, 3, '2026-02-16'),
+            ('Riz (kg)', 400, 1, '2026-02-16'),
+            ('Eau (L)', 600, 1, '2026-02-16'),
 
-            ('Riz', 300, '2026-02-11'),
-            ('Farine', 150, '2026-02-11'),
-            ('Sucre', 80, '2026-02-11'),
+            -- Dons du 2026-02-17
+            ('Argent', 4000000, 3, '2026-02-17'),
+            ('Argent', 1500000, 3, '2026-02-17'),
+            ('Argent', 6000000, 3, '2026-02-17'),
+            ('Tôle', 50, 2, '2026-02-17'),
+            ('Bâche', 70, 2, '2026-02-17'),
+            ('Haricots', 100, 1, '2026-02-17'),
+            ('Haricots', 88, 1, '2026-02-17'),
 
-            ('Tôle', 70, '2026-02-12')");
-        Flight::db()->exec("INSERT INTO BNGRC_dispatch (id_don, id_besoin, quantite_attribuee, status, date_dispatch) VALUES
-            (1, 1, 400, 'complete', '2026-02-10 10:30:00'),
-            (1, 4, 200, 'partiel', '2026-02-10 10:30:01'),
+            -- Dons du 2026-02-18
+            ('Riz (kg)', 2000, 1, '2026-02-18'),
+            ('Tôle', 300, 2, '2026-02-18'),
+            ('Eau (L)', 5000, 1, '2026-02-18'),
 
-            (2, 2, 100, 'complete', '2026-02-11 09:15:00'),
-
-            (3, 3, 50, 'complete', '2026-02-11 14:20:00'),
-            (3, 5, 30, 'partiel', '2026-02-11 14:20:01')");
+            -- Dons du 2026-02-19
+            ('Argent', 20000000, 3, '2026-02-19'),
+            ('Bâche', 500, 2, '2026-02-19');");
     }
 }
