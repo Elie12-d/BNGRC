@@ -2,10 +2,12 @@
     function toNum(v){ return Number(String(v).replace(/\s+/g,'')) || 0; }
     function fmt(n){ return n.toLocaleString('fr-FR'); }
 
-    const availableMoney = toNum('<?= $available_money ?>');
+    // Read available money from the DOM dataset or from the inline global set by PHP
+    const availEl = document.getElementById('available_money');
+    const availableMoney = toNum((availEl && availEl.dataset && availEl.dataset.available) || window.AVAILABLE_MONEY || 0);
     const villeSelect = document.getElementById('ville_select');
     const tbody = document.getElementById('besoins_tbody');
-  console.debug('availableMoney (raw):', '<?= $available_money ?>', 'parsed:', availableMoney);
+  console.debug('availableMoney (from DOM/global):', availableMoney);
 
     // Filter rows to show only besoins for the selected city
     function filterByVille() {
@@ -143,7 +145,6 @@
       }
     });
  // expose available money to external JS sa
-    // initial computefely
-          
+    // initial compute
     recompute();
   })();
